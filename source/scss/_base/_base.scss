@@ -1,0 +1,208 @@
+/*
+ * Base styles
+ */
+
+html {
+	// Force vertical scrollbar (to avoid jumps on window resize)
+	overflow-y: scroll;
+
+	&.html--noScroll {
+		overflow: hidden;
+	}
+}
+
+body {
+	.html--noScroll & {
+		overflow-y: hidden;
+	}
+}
+
+// Remove text-shadow in selection highlight:
+// https://twitter.com/miketaylr/status/12228805301
+// (These selection rule sets have to be separate.)
+::-moz-selection {
+	color: white;
+	background: black;
+	text-shadow: none;
+}
+::selection {
+	color: white;
+	background: black;
+	text-shadow: none;
+}
+
+// Remove the gap between audio, canvas, iframes, images, videos and the bottom of their containers
+// https://github.com/h5bp/html5-boilerplate/issues/440
+audio,
+canvas,
+iframe,
+img,
+svg,
+video {
+	vertical-align: middle;
+}
+
+// Remove default fieldset styles.
+fieldset {
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
+
+// Allow only vertical resizing of textareas.
+textarea {
+	resize: vertical;
+}
+
+
+/*
+ * Starter styles
+ */
+
+*,
+*:after,
+*:before {
+	box-sizing: border-box;
+}
+
+html {
+	@include antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+body {
+	position: relative;
+	margin: 0 auto;
+	overflow-x: hidden;
+	//overflow-y: scroll;
+	display: block;
+}
+
+p, ul, ol, blockquote {
+
+	position: relative;
+
+	p + &, ul + &, ol + &, blockquote + & {
+		margin-top: $defaultMargin;
+	}
+
+}
+
+li {
+
+	position: relative;
+
+	li + & {
+		margin-top: $defaultMargin;
+	}
+
+}
+
+/*
+ * @debt 2018-01-25 Michael
+ *
+ * I don't remember exactly why I had the need to add this rule, but it ended up causing the the nested lists in the
+ * Search sidebar to be rendered with wonky spacing, so I took it out. (The commit message when I added it [3a1aa39] was:
+ * "Fixed a CSS corner case where the first LI in a list-within-a-list didn't receive consistent spacing.")
+ * I think this was referring to a spacing issue in the nested lists on the Sitemap page, which I've now fixed by
+ * correcting the markup of those lists. If it's been a while and we haven't found any other places where this is needed,
+ * we should go ahead and purge this now-unused code.
+ */
+//li {
+//
+//	& li:first-child {
+//		margin-top: $defaultMargin;
+//	}
+//
+//}
+
+a {
+	color: currentColor;
+}
+
+// Use `em` for italics. `i` may represent an icon.
+i {
+	font-style: normal;
+}
+
+button {
+	border: none;
+	background: transparent;
+}
+
+input[type="search"] {
+	box-sizing: border-box;
+}
+
+/*
+ * Images
+ */
+
+img {
+	max-width: 100%;
+	vertical-align: middle;
+	display: block;
+	position: relative;
+}
+
+// Stretch image width
+.img__stretch {
+	width: 100%;
+}
+
+// Perfect circle
+.img__circle {
+	border-radius: 50%;
+}
+
+/*
+ * Transitions
+ */
+
+* {
+	transition:
+		all 0s linear 0s,
+		opacity $transitionTime ease-in-out 0s,
+		background-position $transitionTime ease-in-out 0s,
+		color $fastTransitionTime linear 0s,
+		background-color $fastTransitionTime linear 0s,
+		font-size 0s linear 0s,
+		line-height 0s linear 0s;
+}
+
+.__limitedTransitions, .__limitedTransitions *, html {
+	transition:
+		color $fastTransitionTime ease 0s,
+		background-color $fastTransitionTime ease 0s;
+}
+
+/*
+ * Helpers
+ */
+
+.clearfix{ @include clearfix; }
+
+.mb { overflow: hidden; _overflow: visible; zoom: 1; }
+.mb_body { margin-top: 0; overflow: hidden; _overflow: visible; zoom: 1; }
+.mb .mb_media { float: left; margin-right: $defaultMargin; margin-top: 0; }
+.mb .mb_media__alt { float: right; margin-left: $defaultMargin; margin-top: 0; }
+.mb .mb_media img, .mb .mb_media__alt img { display: block; }
+
+.hidden { @include hidden; }
+.visuallyhidden { @include visuallyHidden; }
+.invisible { visibility: hidden; }
+
+.hideOnPhone {
+	@include mqIs(phone) {
+		@include hidden;
+	}
+}
+
+.onlyOnPhone {
+	display: none;
+	visibility: hidden;
+	@include mqIs(phone) {
+		display: inherit;
+		visibility: inherit;
+	}
+}

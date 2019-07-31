@@ -1,0 +1,310 @@
+.homepageFeatureGrid {
+	 margin-bottom: $wideMargin*1.5;
+}
+
+.homepageFeatureGrid_block {
+	margin-bottom: $defaultMargin;
+}
+
+.topicCollection_heading__homepage {
+
+	$a: 0.05;
+
+	padding-top: $defaultMargin;
+	border-top: 3px solid rgba($c-black, $a);
+
+	&.__default {
+		color: $c-rust;
+		border-color: rgba($c-rust, $a);
+	}
+
+	&.__tv {
+		color: $c-tv;
+		border-color: rgba($c-tv, $a);
+	}
+
+	&.__movies {
+		color: $c-movies;
+		border-color: rgba($c-movies, $a);
+	}
+
+	&.__music {
+		color: $c-music;
+		border-color: rgba($c-music, $a);
+	}
+
+	&.__games {
+		color: $c-games;
+		border-color: rgba($c-games, $a);
+	}
+
+	&.__online {
+		color: $c-online;
+		border-color: rgba($c-online, $a);
+	}
+
+	&.__culture {
+		color: $c-etc;
+		border-color: rgba($c-etc, $a);
+	}
+
+	&.__podcast {
+		color: $c-podcast;
+		border-color: rgba($c-podcast, $a);
+	}
+
+}
+
+.topicCollection_heading__icon {
+	height: 1em;
+	vertical-align: 5%;
+}
+
+.featureArticleTile {
+
+	display: block;
+	position: relative;
+
+	// Hover
+
+	&:hover {
+
+		@include boxShadow;
+
+		.featureArticleTile_bgOverlay {
+			opacity: $smokeOpacity;
+		}
+
+	}
+
+	// Sizes
+
+	&.featureArticleTile__small {
+		padding-bottom: 90%;
+	}
+
+	&.featureArticleTile__wide {
+		padding-bottom: calc(9 / 20.8 * 100%);
+	}
+
+	&.featureArticleTile__hero {
+		// TODO: Fix this... I made something up in a pinch to use for `tools/article-promo-image` and it's probably not actually correct for the homepage.
+		padding-bottom: calc(9 / 16 * 100%);
+	}
+
+	// Themes
+
+	border: 0;
+	border-bottom: 7px solid transparent;
+
+	&.__default {
+		background-color: $c-rust;
+		border-color: $c-rust;
+	}
+
+	&.__tv {
+		background-color: $c-tv;
+		border-color: $c-tv;
+	}
+
+	&.__movies {
+		background-color: $c-movies;
+		border-color: $c-movies;
+	}
+
+	&.__music {
+		background-color: $c-music;
+		border-color: $c-music;
+	}
+
+	&.__games {
+		background-color: $c-games;
+		border-color: $c-games;
+	}
+
+	&.__online {
+		background-color: $c-online;
+		border-color: $c-online;
+	}
+
+	&.__culture {
+		background-color: $c-etc;
+		border-color: $c-etc;
+	}
+
+	&.__podcast {
+		background-color: $c-podcast;
+		border-color: $c-podcast;
+	}
+
+}
+
+// Components
+
+.featureArticleTile_bgOverlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100.3141596%; // (Because subpixel rounding glitches leave a gap at the bottom sometimes when Mercury is in retrograde.)
+
+	opacity: 0.8;
+
+	transition: opacity $fastTransitionTime ease-in-out;
+	pointer-events: none;
+
+	$gradientStart: 35%;
+	$gradientEnd: 80%;
+
+	//background: $c-black;
+	//background: linear-gradient(to top, $c-black $gradientStart, transparent $gradientEnd);
+
+	.__default &  {
+		background-color: $c-rust;
+		background: linear-gradient(to top, $c-rust $gradientStart, transparent $gradientEnd);
+	}
+
+	.__tv & {
+		background-color: $c-tvDark;
+		background: linear-gradient(to top, $c-tvDark $gradientStart, transparent $gradientEnd);
+	}
+
+	.__movies & {
+		background-color: $c-tv;
+		background: linear-gradient(to top, $c-moviesDark $gradientStart, transparent $gradientEnd);
+	}
+
+	.__music & {
+		background-color: $c-music;
+		background: linear-gradient(to top, $c-musicDark $gradientStart, transparent $gradientEnd);
+	}
+
+	.__games & {
+		background-color: $c-games;
+		background: linear-gradient(to top, $c-gamesDark $gradientStart, transparent $gradientEnd);
+	}
+
+	.__online & {
+		background-color: $c-online;
+		background: linear-gradient(to top, $c-onlineDark $gradientStart, transparent $gradientEnd);
+	}
+
+	.__culture & {
+		background-color: $c-etc;
+		background: linear-gradient(to top, $c-etcDark $gradientStart, transparent $gradientEnd);
+	}
+
+	.__podcast & {
+		background-color: $c-podcast;
+		background: linear-gradient(to top, $c-podcastDark $gradientStart, transparent $gradientEnd);
+	}
+
+}
+
+.featureArticleTile_label {
+
+	@include t_altTitle__sm;
+
+	position: absolute;
+	top: 0; // $weePadding;
+	right: 0; // $weePadding;
+	background: $c-black;
+	color: $c-white;
+	@include fontsize($fs-wee);
+	font-weight: $fw-bold;
+	padding: $weePadding $weePadding*1.8;
+	border-radius: $borderRadius;
+
+}
+
+.featureArticleTile_label_title {
+	margin-left: .4em;
+}
+
+.featureArticleTile_label_icon {
+	height: 1.7em;
+	width: 1.7em;
+	vertical-align: -27%;
+}
+
+.featureArticleTile_content {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	padding: $navMargin;
+}
+
+.featureArticleTile_title {
+
+	@include t_h4__sm;
+	color: $c-white;
+
+	.featureArticleTile__wide & {
+		@include t_h4;
+	}
+
+	.featureArticleTile__hero & {
+		@include t_h3;
+	}
+
+	& > .featureArticleTile_title__abbreviated {
+		display: none;
+	}
+	@include mqIs(phone) {
+		& > .featureArticleTile_title__abbreviated {
+			display: inherit;
+		}
+		& > .featureArticleTile_title__normal {
+			display: none;
+		}
+	}
+
+}
+
+.featureArticleTile_meta {
+
+	@include t_altTitle__sm;
+	//color: $c-white;
+
+	$mixWeight: 30%;
+
+	.__default & {
+		color: mix($c-rust, $c-white, $mixWeight);
+	}
+
+	.__tv & {
+		color: mix($c-tv, $c-white, $mixWeight);
+	}
+
+	.__movies & {
+		color: mix($c-movies, $c-white, $mixWeight);
+	}
+
+	.__music & {
+		color: mix($c-music, $c-white, $mixWeight);
+	}
+
+	.__games & {
+		color: mix($c-games, $c-white, $mixWeight);
+	}
+
+	.__online & {
+		color: mix($c-online, $c-white, $mixWeight);
+	}
+
+	.__culture & {
+		color: mix($c-etc, $c-white, $mixWeight);
+	}
+
+	.__podcast & {
+		color: mix($c-podcast, $c-white, $mixWeight);
+	}
+
+	@include mqSmallerThan(tabletPortrait) {
+		.featureArticleTile__small & {
+			display: none;
+		}
+	}
+
+}

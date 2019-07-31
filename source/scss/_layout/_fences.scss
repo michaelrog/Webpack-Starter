@@ -1,0 +1,31 @@
+@mixin fence {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+	width: 90%;
+	max-width: $fenceWidth;
+}
+
+@mixin weeFence {
+	@include fence;
+	max-width: $tightFenceWidth;
+}
+
+@mixin wideFence {
+	@include fence;
+	max-width: $wideFenceWidth;
+}
+
+
+
+.fence {
+	@include fence;
+}
+
+.fence__wee {
+	@include weeFence;
+}
+
+.fence__wide {
+	@include wideFence;
+}

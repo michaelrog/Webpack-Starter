@@ -1,0 +1,99 @@
+/*
+ * Value/unit breakpoints
+ */
+
+@mixin mqMin($bp, $device: 'screen') {
+	@media only #{$device} and (min-width: $bp)
+	{
+		@content;
+	}
+}
+
+@mixin mqMax($bp, $device: 'screen') {
+	@media only #{$device} and (max-width: $bp)
+	{
+		@content;
+	}
+}
+
+@mixin mqMinMax($bp_min, $bp_max, $device: 'screen') {
+	@media only #{$device} and (min-width: $bp_min) and (max-width: $bp_max)
+	{
+		@content;
+	}
+}
+
+@mixin mqMinHeight($bp, $device: 'screen') {
+	@media only #{$device} and (min-height: $bp)
+	{
+		@content;
+	}
+}
+
+@mixin mqMaxHeight($bp, $device: 'screen') {
+	@media only #{$device} and (max-height: $bp)
+	{
+		@content;
+	}
+}
+
+@mixin mqMinMaxHeight($bp_min, $bp_max, $device: 'screen') {
+	@media only #{$device} and (min-height: $bp_min) and (max-height: $bp_max)
+	{
+		@content;
+	}
+}
+
+
+/*
+ * Named breakpoints
+ */
+
+@mixin mqIs($name: standard, $device: screen) {
+
+	$bp: map-get($breakpoints, $name);
+	$min: map-get($bp, min);
+	$max: map-get($bp, max);
+
+	@media only #{$device} and (min-width: $min) and (max-width: $max)
+	{
+		@content;
+	}
+
+}
+
+@mixin mqAtLeast($name: standard, $device: screen) {
+
+	$bp: map-get($breakpoints, $name);
+	$min: map-get($bp, min);
+
+	@media only #{$device} and (min-width: $min)
+	{
+		@content;
+	}
+
+}
+
+@mixin mqLargerThan($name: standard, $device: screen) {
+
+	$bp: map-get($breakpoints, $name);
+	$max: map-get($bp, max);
+
+	@media only #{$device} and (min-width: $max)
+	{
+		@content;
+	}
+
+}
+
+@mixin mqSmallerThan($name: standard, $device: screen) {
+
+	$bp: map-get($breakpoints, $name);
+	$min: map-get($bp, min);
+
+	@media only #{$device} and (max-width: $min)
+	{
+		@content;
+	}
+
+}

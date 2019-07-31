@@ -1,0 +1,21 @@
+/*
+ * Super-SASSy functions!
+ */
+
+// c.f. http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/
+// c.f. https://css-tricks.com/snippets/sass/strip-unit-function/
+
+@function stripUnit($number) {
+	@if type-of($number) == 'number' and not unitless($number) {
+		@return $number / ($number * 0 + 1);
+	}
+	@return $number;
+}
+
+@function rems($size) {
+	@if type-of($size) == 'number' and not unitless($size) and unit($size) == 'rem' {
+		@return $size;
+	}
+	$size: stripUnit( $size );
+	@return $size / 16 * 1rem;
+}

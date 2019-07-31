@@ -1,0 +1,71 @@
+/*
+ * Background image tile
+ */
+
+.imageLoader {
+
+	overflow: hidden;
+	position: relative;
+
+	// Fixes a glitch in Safari iOS where the `.imageLoader_image` is visible outside a border radius while fading in.
+	transform: translate3d(0, 0, 0);
+
+}
+
+.imageLoader img {
+	display: block;
+	width: 100%;
+}
+
+.imageLoader_image {
+	position: absolute;
+	top: 0;
+	left: 0;
+	opacity: 0;
+	transition: opacity 2s ease-in-out;
+}
+
+.imageLoader_image.lazyloaded {
+	opacity: 1;
+}
+
+.imageLoader_previewImage {
+	-webkit-filter: blur(10px);
+	filter: blur(10px);
+}
+
+
+/*
+ * Background image tile
+ */
+
+.imageBackgroundLoader {
+
+	overflow: hidden;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+	z-index: 0;
+
+	.imageBackgroundLoader_previewImage {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background-size: cover;
+		background-color: $c-black;
+		z-index: 0;
+		-webkit-filter: blur(10px);
+		filter: blur(10px);
+		transition: opacity 2s ease-in-out;
+	}
+
+	&.lazyloaded .imageBackgroundLoader_previewImage {
+		opacity: 0;
+	}
+
+}

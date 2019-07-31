@@ -1,0 +1,67 @@
+$scalingWidthMin: 480px !default;
+$scalingWidthMax: 1920px !default;
+
+/**
+Scales any property.
+Usage example: `@include scaling('height', 1, 120);`
+@copyright: Aaron Waldon <aaron@causingeffect.com>, January 2017
+ */
+@mixin scaling($property: 'prop', $prop-min: 0, $prop-max: 0, $unit: 'px', $width-min: $scalingWidthMin, $width-max: $scalingWidthMax, $includeDefault: true) {
+	$prop-min: stripUnit( $prop-min );
+	$prop-max: stripUnit( $prop-max );
+	$width-min-plain: stripUnit( $width-min );
+	$width-max-plain: stripUnit( $width-max );
+
+	//default for below the min
+	@if $includeDefault {
+		#{$property}: $prop-min#{$unit};
+	}
+
+	//scale between the width min and max
+	@include mqMinMax($width-min, $width-max) {
+		//the algebra
+		$slope : ($prop-max - $prop-min) / ($width-max-plain - $width-min-plain);
+		$intercept : $slope * $width-min-plain - $prop-min;
+
+		//a little formatting for output that is easier to read
+		$interceptInverted : $intercept * -1;
+		$slopeCalculated : $slope * 100;
+
+		//the final property
+		#{$property}: calc( #{$slopeCalculated}vw + #{$interceptInverted}#{$unit} );
+	}
+
+	//max font size for above the width max
+	@include mqMin($width-max) {
+		#{$property}: $prop-max#{$unit};
+	}
+}
+
+/**
+Scaling font-size.
+Usage example: `@include scalingFs(100, 600);`
+@copyright: Aaron Waldon <aaron@causingeffect.com>, January 2017
+ */
+@mixin scalingFs($fs-min, $fs-max, $width-min: $scalingWidthMin, $width-max: $scalingWidthMax, $includeDefault: true) {
+	$fs-min: stripUnit( $fs-min );
+	$fs-max: stripUnit( $fs-max );
+	$width-min-plain: stripUnit( $width-min );
+	$width-max-plain: stripUnit( $width-max );
+
+	//default font size for below the min
+	@if $includeDefault {
+		@include fontsize($fs-min);
+	}
+
+	//scale between the width min and max
+	@include mqMinMax($width-min, $width-max) {
+		$slope : ($fs-max - $fs-min) / ($width-max-plain - $width-min-plain);
+		$intercept : $slope * $width-min-plain - $fs-min;
+		font-size: calc( #{$slope}*100vw - #{$intercept}px );
+	}
+
+	//max font size for above the width max
+	@include mqMin($width-max) {
+		@include fontsize($fs-max);
+	}
+}

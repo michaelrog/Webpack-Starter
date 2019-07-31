@@ -1,0 +1,66 @@
+@mixin buttonColors($bg, $fg) {
+	color: $fg;
+	background-color: $bg;
+	&:hover {
+		background-color: darken($bg, 10%);
+		box-shadow: transparentize($bg, .77) 0 0 $defaultMargin/4;
+	}
+}
+
+button, .button {
+	cursor: pointer;
+}
+
+.button {
+
+	display: inline-block;
+	padding: $defaultMargin/2;
+	background-color: transparentize($c-black, 0.95);
+	color: currentColor;
+	font-weight: $fw-bold;
+	line-height: 1;
+	text-decoration: none;
+
+	&:hover {
+		background-color: transparentize($c-black, 0.85);;
+	}
+
+}
+
+.button__submit {
+	padding: $navMargin $defaultMargin;
+	@include altTitleFont;
+	@include t_smallish;
+	text-transform: uppercase;
+}
+
+.button__small {
+	@include fontsize($smallFontSize);
+}
+
+
+.button__podcast-badge {
+	margin: $defaultMargin/2;
+	height: 40px;
+
+	& > img {
+		height: 100%;
+	}
+}
+
+.button__podcast-icon {
+	display: inline-block;
+	height: 20px;
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+
+	& > img,
+	& > svg {
+		display: inline-block;
+		height: 100%;
+		margin-right: $defaultMargin/2;
+	}
+}

@@ -17,7 +17,7 @@ export function server() {
         // site: 'main',
         middleware: [
             webpackDevMiddleware(bundler, { /* options */ }),
-            // webpackHotMiddleware(bundler, { /* options */ }),
+            webpackHotMiddleware(bundler, { /* options */ }),
         ],
         proxy: 'tmp.l',
 

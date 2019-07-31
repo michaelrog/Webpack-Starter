@@ -1,0 +1,25 @@
+.__mTop {
+	margin-top: $wideMargin;
+}
+
+.__mTop__wee {
+	margin-top: $defaultMargin;
+}
+
+.__mTop__wide {
+	margin-top: $wideMargin*2;
+}
+
+.__mBottom {
+	margin-bottom: $wideMargin;
+}
+
+.__mV {
+	margin-top: $wideMargin;
+	margin-bottom: $wideMargin;
+}
+
+.__mV__wee {
+	margin-top: $defaultMargin;
+	margin-bottom: $defaultMargin;
+}

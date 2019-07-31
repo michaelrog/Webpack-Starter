@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<!--
+
+A service of ReFrame Media - http://reframemedia.com
+
+Design and development - Michael Rog (https://michaelrog.com)
+
+-->
+
+{% set disableCache = disableCache ?? false %}
+{% set noCache = craft.config.devMode or currentUser or disableCache %}
+{% set cacheKey = craft.request.path ~ '/' ~ craft.request.pageNum %}
+{% set cacheUntilDate = cacheUntilDate ?? now|date_modify('+1 day') %}
+{% if not noCache %}
+    {#{% do craft.cachemaster.cacheOutput({expiryDate: cacheUntilDate, method: 'static'}) %}#}
+{% endif %}
+<!-- Cache status: {{ noCache ? 'Cache disabled.' : 'Cache enabled.' }} {{ craft.config.devMode ? '/devMode' }} {{ currentUser ? '/currentUser' }} {{ disableCache ? '/disableCache' }} -->
+<!-- Cache key: {{ cacheKey }} -->
+<!-- Cache until: {{ cacheUntilDate | date }} -->
+
+{% spaceless %}
+
+<head>
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% block stylesAppend %}
+    {% endblock %}
+
+    {% block additionalMeta %}
+    {% endblock %}
+
+    {{ getHeadHtml() }}
+
+</head>
+
+<body class="{{ bodyClass ?? '' }} body__{{ themeHandle ?? 'default' }}">
+
+	<div class="pageHeader" role="complementary">
+		{% block pageHeader %}
+		{% endblock %}
+	</div><!-- / .pageHeader -->
+
+	<div class="pageContainer" id="pageContainer">
+
+		<div class="pageContent" role="main">
+			{% block pageContents %}
+			{% endblock %}
+		</div><!-- / .pageContent -->
+
+	</div><!-- / .pageContainer -->
+
+	<div class="pageFooter" role="complementary">
+		{% block pageFooter %}
+		{% endblock %}
+	</div><!-- / .pageFooter -->
+
+	<script>
+		SITE_config = {
+			'devMode': {{ craft.config.devMode | json_encode }},
+			'isProduction': {{ craft.config.isProduction | json_encode }}
+		};
+	</script>
+
+	<script type="text/template" data-scrollbar-compensation>
+		.html--noScroll .siteHeader,
+		.html--noScroll .megaMenu,
+		.html--noScroll .pageContainer,
+		.html--noScroll .siteFooter,
+		.html--noScroll .programsFooter,
+		.html--noScroll .attributionFooter {
+			padding-right: {sbw}px !important;
+		}
+	</script>
+
+	<script src="{{ craft.stamp.er('/dist/scripts/tc.js') }}"></script>
+
+	{% if craft.config.isProduction %}
+	{% endif %}
+
+	{% block scriptsAppend %}
+    {% endblock %}
+
+    {{ getFootHtml() }}
+
+</body>
+
+</html>
+
+{% endspaceless %}

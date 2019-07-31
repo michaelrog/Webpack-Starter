@@ -1,0 +1,114 @@
+.toolbar {
+
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: stretch;
+	width: 100%;
+	@include altTitleFont;
+
+	.__flush {
+		padding: 0;
+	}
+	.__static {
+		flex-grow: 0;
+	}
+	.__expand {
+		flex-grow: 1;
+	}
+
+}
+
+.toolbar_button {
+	display: flex;
+	align-items: center;
+	padding: $defaultMargin/2 $defaultMargin;
+	font-weight: $fw-bold;
+	@include t_smallish;
+	text-transform: uppercase;
+}
+
+.toolbar_content {
+	display: flex;
+	align-items: center;
+}
+
+a.toolbar_button {
+	text-decoration: none;
+}
+
+
+.toolbar_button__comments {
+	color: white;
+	background: $c-darkGrey;
+}
+
+.toolbar_button__facebook {
+	color: white;
+	background: $facebookBlue;
+}
+
+.toolbar_button__twitter {
+	color: white;
+	background: $twitterBlue;
+}
+
+.toolbar_button_label {
+	margin-left: $defaultMargin/2;
+}
+
+
+.actionsToolbar {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	height: 55px;
+	width: 100%;
+	background: $c-greyDust;
+	@include boxShadow;
+
+	/*
+	 * Animation
+	 */
+
+	transform: translate3d(0, 100px, 0);
+	opacity: 1;
+	transition: transform $transitionTime ease, opacity $transitionTime ease;
+
+}
+
+.actionsToolbar.toolbar__in {
+	transform: translate3d(0, 0, 0);
+	opacity: 1;
+}
+
+.actionsToolbar.toolbar__out {
+
+}
+
+.toolbar_button__logo {
+	margin: 0;
+	padding: 0 $defaultMargin/7;
+	background-color: $c-plumGrey;
+}
+.actionsToolbar_logo {
+	display: block;
+	margin: 3px;
+	max-width: 49px;
+}
+
+
+/*
+ * Responsive
+ */
+
+@include mqSmallerThan('tabletLandscape') {
+	.toolbar_button_label {
+		display: none;
+	}
+}
+
+@include mqSmallerThan('tabletPortrait') {
+	.toolbar_button__comments, .toolbar_button__facebook, .toolbar_button__twitter {
+		display: none;
+	}
+}

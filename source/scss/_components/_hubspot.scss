@@ -1,0 +1,343 @@
+.hubspotForm__theBigOne {
+
+	& > .hubspotForm_heading {
+		font-weight: $fw-bold;
+	}
+
+	& > .hubspotForm_instructions {
+		@include t_smallish;
+	}
+
+	.hbspt-form {
+		margin-bottom: $wideMargin;
+	}
+
+	.hs_email, .hs_tc_category_interest, .hs_submit {
+
+		width: 100%;
+		margin: 0 0 $defaultMargin;
+
+		> label {
+			display: block;
+			margin: $navMargin 0;
+			@include altTitleFont;
+			font-weight: $fw-bold;
+		}
+
+		& div.input {
+			width: 100%;
+			// padding: 0 $wideMargin;
+		}
+
+	}
+
+	.hs_email {
+
+		& input {
+			display: block;
+			width: 100%;
+			padding: $navMargin;
+			background: $c-plumDust;
+		}
+
+	}
+
+	ul.inputs-list.multi-container
+	{
+		@include nakedList;
+	}
+
+	input.hs-input[type=checkbox] {
+
+		display: inline-block;
+		position: relative;
+		width: 32px;
+		height: 30px;
+		top: 7px;
+		margin-right: $defaultMargin;
+
+		-webkit-appearance: none;
+
+		   -moz-appearance: none;
+
+		        appearance: none;
+
+		&:after {
+			content: url('/assets/icons/checkbox-unchecked.svg');
+		}
+
+		&:checked:after {
+			content: url('/assets/icons/checkbox-checked.svg');
+		}
+
+
+	}
+
+	.hs_submit input[type=submit] {
+		display: inline-block;
+		margin-top: $navMargin;
+		padding: $navMargin $defaultMargin;
+		@include buttonColors($c-plum, $c-white);
+		@include altTitleFont;
+		font-weight: $fw-bold;
+		text-transform: uppercase;
+		line-height: 1;
+		cursor: pointer;
+	}
+
+	ul.hs-error-msgs {
+
+		@include nakedList;
+		@include altTitleFont;
+
+		padding: $navMargin 0 $navMargin;
+
+		li {
+			padding: $navMargin $defaultMargin;
+			color: $c-rust;
+			background: $c-rustDust;
+			font-weight: $fw-bold;
+		}
+
+	}
+
+	.hbspt-form .submitted-message {
+		padding: $navMargin;
+		color: $c-darkGreen;
+		background: $c-greenDust;
+		font-weight: $fw-bold;
+	}
+
+}
+
+label.hs-form-checkbox-display {
+
+	& > span {
+		@include titleFont;
+		font-size: 24px;
+	}
+
+	// All Categories
+	li:nth-child(1) & {
+		color: $c-black;
+	}
+
+	// Music
+	li:nth-child(2) & {
+		color: $c-music;
+	}
+
+	// Movies
+	li:nth-child(3) & {
+		color: $c-movies;
+	}
+
+	// TV
+	li:nth-child(4) & {
+		color: $c-tv;
+	}
+
+	// Games
+	li:nth-child(5) & {
+		color: $c-games;
+	}
+
+	// Online
+	li:nth-child(6) & {
+		color: $c-online;
+	}
+
+	// Culture At Large
+	li:nth-child(7) & {
+		color: $c-etc;
+	}
+
+}
+
+
+
+.hubspotForm__articleInline {
+
+	@extend .form__articleInline;
+
+	& > .hubspotForm_heading {
+
+		@extend .formHeading;
+
+	}
+
+	& > .hubspotForm_instructions {
+		margin-top: $defaultMargin/2;
+		@include t_smallish;
+	}
+
+	.hbspt-form {
+		display: block;
+	}
+
+	.hs_email {
+
+		@extend .formField;
+
+	}
+
+	.hs_submit {
+
+		@extend .formSubmit;
+
+	}
+
+	ul.hs-error-msgs {
+
+		@include nakedList;
+		@include altTitleFont;
+		@include fontsize($smallFontSize);
+
+		padding: $navMargin 0;
+
+		li {
+			padding: $navMargin $defaultMargin;
+			color: $c-rust;
+			background: $c-rustDust;
+			font-weight: $fw-bold;
+		}
+
+	}
+
+	.hbspt-form .submitted-message {
+		padding: $navMargin;
+		margin-top: $defaultMargin;
+		color: $c-darkGreen;
+		background: $c-greenDust;
+		font-weight: $fw-bold;
+	}
+
+}
+
+
+.hubspotForm__actionBar {
+
+	display: -webkit-box;
+
+	display: -ms-flexbox;
+
+	display: flex;
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	justify-items: stretch;
+	max-height: 55px;
+	overflow: hidden;
+
+	& > form { // .hs-form
+		width: 100%;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		    -ms-flex-flow: row;
+		        flex-flow: row;
+		-webkit-box-align: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+		margin: 0 $defaultMargin 0 $defaultMargin/2;
+		padding: 3px;
+		background: $c-greyDust;
+	}
+
+	& > .hubspotForm_heading {
+		display: none;
+	}
+
+	& > .hubspotForm_instructions {
+		display: none;
+	}
+
+	.hs_email {
+
+		display: -webkit-box;
+
+		display: -ms-flexbox;
+
+		display: flex;
+		-webkit-box-orient: horizontal;
+		-webkit-box-direction: normal;
+		    -ms-flex-flow: row nowrap;
+		        flex-flow: row nowrap;
+		-webkit-box-align: center;
+		    -ms-flex-align: center;
+		        align-items: center;
+
+		> label {
+			display: none;
+		}
+
+		& div.input {
+			display: inline-block;
+			margin: 0 $defaultMargin/2 0 0;
+		}
+
+		& input {
+			display: inline-block;
+			width: 100%;
+			padding: $navMargin/2 $navMargin;
+			background: $c-lighten;
+			border: 1px dotted $c-darken;
+			border-radius: $borderRadius;
+			@include t_smallish;
+		}
+
+		& input.error {
+			background: $c-rustDust;
+			border: 1px solid $c-rust;
+		}
+
+		& .hs-error-msgs {
+			display: none !important;
+			& li { display: none; }
+		}
+
+	}
+
+	& ul.hs-error-msgs {
+
+		@include nakedList;
+		@include altTitleFont;
+		@include fontsize($smallFontSize);
+
+		margin-right: $navMargin;
+		padding: $navMargin/2 0;
+
+		li {
+			padding: $navMargin $defaultMargin;
+			color: $c-rust;
+			background: $c-rustDust;
+			font-weight: $fw-bold;
+		}
+	}
+
+	.hs_submit input[type=submit] {
+		display: inline-block;
+		margin: 0;
+		padding: $defaultMargin*.62 $defaultMargin*.7;
+		@include buttonColors($c-plum, $c-white);
+		@include altTitleFont;
+		@include t_smallish;
+		font-weight: $fw-bold;
+		text-transform: uppercase;
+		line-height: 1;
+		cursor: pointer;
+
+	}
+
+	& .submitted-message {
+		height: 100%;
+		padding: $navMargin;
+		color: $c-darkGreen;
+		background: $c-greenDust;
+		font-weight: $fw-bold;
+		@include fontsize($smallFontSize);
+	}
+
+}

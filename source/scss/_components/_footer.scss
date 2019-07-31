@@ -1,0 +1,184 @@
+.siteFooter {
+
+	margin: $wideMargin*2 0 0;
+	padding: $wideMargin 0;
+	background-color: $c-rust;
+	color: $c-white;
+
+	@include altTitleFont;
+	border-top: 4px solid darken($c-rust, 5%);
+
+	@include mqSmallerThan(tabletLandscape) {
+		text-align: center;
+	}
+
+}
+
+.siteFooter_outerColumn {
+}
+
+.siteFooter_innerColumn {
+
+}
+
+.icon.siteFooter_tcLogo {
+	width: 10em;
+	height: 6em;
+}
+
+.siteFooter_logoLink {
+
+	display: inline-block;
+	@include scaling('max-width', 200, 400);
+
+	svg {
+		width: 100%;
+	}
+
+}
+
+.siteFooter_socialLinks {
+
+	margin: $defaultMargin 0 $defaultMargin*1.5;
+	text-align: center;
+
+	& .iconCircle {
+		margin-right: .5em;
+	}
+	& .iconCircle:hover {
+		background-color: $c-lighten;
+	}
+
+}
+
+.siteFooter_tcMotto {
+
+	text-transform: lowercase;
+	@include fontsize($fs-wee);
+	@include altTitleFont;
+	font-weight: $fw-bold;
+
+}
+
+.siteFooter_linkList {
+
+	@include fontsize($fs-meta);
+	line-height: 1.3;
+
+	& li {
+		margin: $defaultMargin/2 0 0;
+		list-style: none;
+	}
+
+	& a {
+		text-decoration: none;
+	}
+
+	& a:hover {
+		text-decoration: underline;
+	}
+
+}
+
+.siteFooter_reframeInfo {
+
+	@include altTitleFont;
+	@include fontsize($smallFontSize);
+	text-align: left;
+
+	@include mqSmallerThan(tabletLandscape) {
+		text-align: center;
+		margin-top: $wideMargin;
+		border-top: 1px dotted $c-lighten;
+		padding-top: $wideMargin;
+	}
+
+}
+
+.icon.siteFooter_reframeLogo {
+	width: 123px;
+	height: 42px;
+
+}
+
+
+.programsFooter {
+	padding: $wideMargin 0;
+	background-color: darken($c-rust, 10%);
+	color: rgba($c-white, $overlayOpacity);
+}
+
+.programsFooter_programLinks_intro {
+	@include altTitleFont;
+	@include fontsize($smallFontSize);
+	color: rgba($c-white, $overlayOpacity);
+	margin-bottom: $navMargin;
+	text-align: center;
+}
+
+.programsFooter_programLinks {
+
+	@include flexbox();
+	@include flex(0, 0, 1);
+	@include flex-direction(row);
+	@include flex-wrap(wrap);
+
+	justify-content: center;
+	text-align: center;
+	align-items: center;
+
+	@include mqLargerThan(tabletLandscape) {
+		justify-content: space-around;
+	}
+
+}
+
+.programsFooter_programLinks_link {
+
+	display: inline-block;
+	flex: 1;
+	min-width: 125px;
+	margin: $navMargin $defaultMargin;
+
+	&:hover > svg > use {
+		color: $c-white;
+	}
+
+}
+
+.icon.siteFooter_programIcon {
+
+	height: 30px;
+	width: 60px;
+
+	&.__today { width: 124px; height: 42px; top: 4px; }
+	&.__groundwork { width: 144px; height: 52px; top: -7px;}
+	&.__familyfire { width: 114px; height: 54px; }
+	&.__kidscorner { width: 92px; height: 54px; }
+	&.__churchjuice { width: 177px; height: 47px; top: 4px; }
+
+}
+
+
+.attributionFooter {
+
+	padding: $defaultMargin 0;
+	background-color: darken($c-rust, 25%);
+	color: rgba($c-white, $overlayOpacity);
+
+	&, & * {
+		transition: color $fastTransitionTime linear 0;
+	}
+
+	@include altTitleFont;
+	@include fontsize($smallFontSize);
+
+	& a:hover {
+		color: mix($c-rust, $c-white, 10%);
+	}
+
+	& p {
+		margin-top: .1em;
+	}
+
+}

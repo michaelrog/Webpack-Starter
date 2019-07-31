@@ -1,0 +1,234 @@
+.siteHeader {
+
+	position: fixed;
+	display: block;
+	z-index: 7;
+	width: 100%;
+	height: 75px;
+	padding: $navMargin 0;
+	background-color: $c-white;
+	@include boxShadow;
+
+	/*
+	 * Animations
+	 */
+	transform: translate3d(0, 0, 0);
+	opacity: 1;
+	transition: transform $transitionTime, opacity $transitionTime;
+
+	&.toolbar__out {
+		transform: translate3d(0, -100px, 0);
+		opacity: 1;
+	}
+
+	/*
+	 * Themes...
+	 */
+
+	&.__default {
+		background-color: $c-white;
+		color: $c-rust;
+	}
+
+	&.__tv {
+		background-color: $c-tv;
+		color: $c-white;
+	}
+
+	&.__movies {
+		background-color: $c-movies;
+		color: $c-white;
+	}
+
+	&.__music {
+		background-color: $c-music;
+		color: $c-white;
+	}
+
+	&.__games {
+		background-color: $c-games;
+		color: $c-white;
+	}
+
+	&.__online {
+		background-color: $c-online;
+		color: $c-white;
+	}
+
+	&.__culture {
+		background-color: $c-etc;
+		color: $c-white;
+	}
+
+	&.__podcast {
+		background-color: $c-podcast;
+		color: $c-white;
+	}
+
+	&.__tv,
+	&.__movies,
+	&.__music,
+	&.__games,
+	&.__online,
+	&.__culture,
+	&.__podcast {
+
+		background-image: url('/assets/patterns/lines.svg');
+		background-size: 100% auto;
+		background-size: cover;
+
+		svg path {
+			fill: #fff;
+		}
+
+	}
+
+}
+
+.mainNav {
+	display: flex;
+	justify-content: flex-start; // Shouldn't matter, because .mainNav_links will flex-grow
+	align-items: center;
+	align-content: center;
+}
+
+.mainNav_links {
+
+	flex-grow: 1;
+
+	display: flex;
+	justify-content: flex-end;
+	align-items: baseline;
+	align-content: center;
+
+	@include nakedList;
+
+	& > li {
+		margin: 0 0 0 $defaultMargin;
+	}
+
+}
+
+.mainNav_link {
+
+	text-decoration: none;
+
+	@include altTitleFont;
+	@include t_smallish;
+	font-weight: $fw-bold;
+	text-transform: uppercase;
+
+	padding-bottom: 2px;
+
+	&.__active:not(.__withIcon) {
+		border-bottom: 3px solid currentColor;
+	}
+
+	&.__withIcon {
+		vertical-align: 5%;
+	}
+
+}
+
+.siteHeader_logo {
+	line-height: 1;
+}
+
+.siteHeader_logoLink {
+
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	margin: 0 $defaultMargin 0 0;
+	@include scaling('max-width', 200, 400);
+
+	svg {
+		width: 100%;
+		margin: 0;
+	}
+
+}
+
+.siteHeader_tcMotto {
+	display: block;
+	margin-top: 2px;
+	color: $c-plumGrey;
+	line-height: 1;
+	text-transform: lowercase;
+	@include fontsize($fs-wee);
+	@include altTitleFont;
+	font-weight: $fw-bold;
+}
+
+
+/*
+ * Responsive nav treatment
+ */
+
+
+#mainNavItem__menu, #mainNavItem__search {
+	min-width: 18px;
+}
+
+@include mqMin(1196px)
+{
+	#mainNavItem__menu {
+		display: none;
+	}
+}
+
+@include mqMax(1280px)
+{
+	#mainNavItem__home {
+		display: none;
+	}
+}
+
+@include mqMax(1195px)
+{
+	#mainNavItem__about {
+		display: none;
+	}
+}
+
+@include mqMax(1140px)
+{
+	#mainNavItem__donate {
+		display: none;
+	}
+}
+
+@include mqMax(1020px)
+{
+	#mainNavItem__contributors {
+		display: none;
+	}
+}
+
+@include mqMax(820px)
+{
+	#mainNavItem__ebooks {
+		display: none;
+	}
+}
+
+@include mqMax(711px)
+{
+	#mainNavItem__podcast {
+		display: none;
+	}
+}
+
+@include mqMax(575px)
+{
+	#mainNavItem__subscribe {
+		display: none;
+	}
+}
+
+@include mqMax(440px)
+{
+	#mainNavItem__search {
+		display: none;
+	}
+}

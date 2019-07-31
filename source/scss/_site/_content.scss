@@ -1,0 +1,97 @@
+li {
+	margin-left: $wideMargin;
+}
+
+ol {
+
+	list-style: decimal;
+
+	ol & {
+		list-style: lower-alpha;
+	}
+
+}
+
+ul {
+	list-style: disc;
+}
+
+.list__naked {
+	@include nakedList;
+}
+
+
+@mixin moreLink {
+	@include t_altTitle;
+	@include t_smallish;
+	font-weight: $fw-bold;
+	&:after {
+		content: ' \2192';
+	}
+}
+
+.moreLink {
+	@include moreLink;
+}
+
+/*
+ * Current themes
+ */
+
+.__c-default {
+	color: $c-rust;
+}
+
+.__c-music {
+	color: $c-music;
+}
+
+.__c-movies {
+	color: $c-movies;
+}
+
+.__c-tv {
+	color: $c-tv;
+}
+
+.__c-games {
+	color: $c-games;
+}
+
+.__c-online {
+	color: $c-online;
+}
+
+.__c-culture {
+	color: $c-etc;
+}
+
+
+/*
+ * Back-catalog themes
+ */
+
+.__c-business-economics {
+	color: $c-businessEconomics;
+}
+
+.__c-science-technology {
+	color: $c-scienceTechnology;
+}
+
+.__c-arts-leisure {
+	color: $c-artsLeisure;
+}
+
+.__c-news-politics {
+	color: $c-newsPolitics;
+}
+
+.__c-theology-the-church {
+	color: $c-theologyChurch;
+}
+
+.__c-home-family {
+	color: $c-homeFamily;
+}
+

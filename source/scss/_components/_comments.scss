@@ -1,0 +1,17 @@
+.comment_header {
+	margin-bottom: $defaultMargin/2;
+	padding-top: $defaultMargin;
+}
+
+.comment_content {
+
+	padding: $defaultMargin;
+	background-color: $c-greyDust;
+	border-radius: $defaultMargin;
+
+}
+
+.comment_content.__pending {
+	background-color: transparent;
+	border: 1px dotted $c-darken;
+}

@@ -1,0 +1,267 @@
+.articleImageFrame, .articleAudioPlayer {
+	&.__default {
+		background-color: $c-rust;
+	}
+
+	&.__tv {
+		background-color: $c-tv;
+	}
+
+	&.__movies {
+		background-color: $c-movies;
+	}
+
+	&.__music {
+		background-color: $c-music;
+	}
+
+	&.__games {
+		background-color: $c-games;
+	}
+
+	&.__online {
+		background-color: $c-online;
+	}
+
+	&.__culture {
+		background-color: $c-etc;
+	}
+
+	&.__podcast {
+		background-color: $c-podcast;
+	}
+
+}
+
+.articleImageFrame {
+	padding: 0;
+	padding-bottom: calc(0.7% + 4px);
+}
+
+.articleAudioPlayer {
+	margin-top: $defaultMargin;
+	margin-bottom: $defaultMargin;
+}
+
+.article_teaser {
+	display: block;
+	position: relative;
+	margin: $wideMargin*1.5 0 $wideMargin*1.2;
+	text-align: center;
+}
+
+.article_teaser:after {
+
+	display: block;
+	margin: $defaultMargin*3 auto $defaultMargin*3;
+	width: 7%;
+	height: 10px;
+	content: ' ';
+	background: $c-greyDust; // default, overridden by page theme
+	@include __bg-themeDust;
+	border-radius: $borderRadius;
+
+	@include mqSmallerThan('tabletLandscape') {
+		margin: $defaultMargin*2 auto $defaultMargin*2;
+		width: 14%;
+	}
+
+}
+
+.article_pullQuote {
+
+	padding: $wideMargin;
+	text-align: center;
+
+	& blockquote {
+		// Reset styles from default content blockquote...
+		margin: 0 !important;
+		padding: 0 !important;
+		border: none !important;
+	}
+
+	& .article_pullQuote_quote {
+		@include t_h3;
+	}
+
+	& .article_pullQuote_attribution {
+		margin-top: $defaultMargin;
+	}
+
+}
+
+.articleAuthors {
+	margin: $wideMargin 0 $wideMargin*2;
+	padding: $wideMargin 0 0;
+	border-top: 3px solid $c-greyDust;
+	@include t_smallish;
+}
+
+.articleAuthors_profile {
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+.articleAuthors_profileImage {
+
+	width: 142px;
+	flex-basis: 142px;
+	flex-grow: 1;
+	margin-bottom: $defaultMargin;
+
+	@include mqAtLeast('tabletPortrait') {
+		margin-right: $wideMargin;
+	}
+
+}
+
+.articleAuthors_content {
+	flex-basis: 442px;
+	flex-grow: 11;
+}
+
+.articleAuthors_profileImage, .articleAuthors_content {
+	text-align: center;
+	@include mqMin('694px') {
+		text-align: left;
+	}
+}
+
+.articleAuthors_moreLink {
+	@include moreLink;
+}
+
+/*
+ * Headings & Typography
+ */
+
+.article_body h2:not(.h1) {
+	@include t-h3;
+	margin: $wideMargin*1.5 0 $wideMargin;
+}
+
+.article_body h3:not(.h1) {
+	@include t-h4;
+	margin: $wideMargin 0 $defaultMargin;
+}
+
+.article_body h4 {
+	@include t_h4__alt__sm;
+	margin: $defaultMargin 0;
+}
+
+
+.articleContent_video {
+	
+	position: relative;
+	padding-bottom: 56.25%; /* 16:9 */
+	margin: $defaultMargin auto;
+	width: 100%;
+	border: $navMargin solid $c-greyDust;
+
+	& > .articleContent_video_player {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+
+}
+
+.articleContent_embed {
+	position: relative;
+	margin: $defaultMargin auto;
+	width: 100%;
+	border: $navMargin solid $c-greyDust;
+}
+
+.article_topics {
+	@include fontsize($smallFontSize);
+	font-weight: $fw-bold;
+}
+
+.articleActions_item {
+
+	margin: 0 $wideMargin $defaultMargin;
+	@include t_altTitle;
+	@include t_smallish;
+	font-weight: $fw-bold;
+	text-transform: uppercase;
+
+	&.comments {
+	}
+	&.share {
+		color: $facebookBlue;
+	}
+	&.tweet {
+		color: $twitterBlue;
+	}
+
+	& a {
+		text-decoration: none;
+	}
+
+	& .articleActions_item_label {
+		margin-left: $defaultMargin/2;
+	}
+
+	& a:hover .articleActions_item_label {
+		text-decoration: underline;
+	}
+
+}
+
+
+/*
+ * Article theme
+ */
+
+.article_body h3, .article_body h4, .article_body a, .article_body a:link, .article_pullQuote {
+
+	.__default & {
+		color: $c-rust;
+	}
+
+	.__tv & {
+		color: $c-tv;
+	}
+
+	.__movies & {
+		color: $c-movies;
+	}
+
+	.__music & {
+		color: $c-music;
+	}
+
+	.__games & {
+		color: $c-games;
+	}
+
+	.__online & {
+		color: $c-online;
+	}
+
+	.__culture & {
+		color: $c-etc;
+	}
+
+	.__podcast & {
+		color: $c-podcast;
+	}
+
+	.__tc & {
+		color: $c-rust;
+	}
+
+}
+
+.article_body blockquote {
+	margin-left: $defaultMargin;
+	padding: 0 $defaultMargin;
+	border-left: 7px solid $c-darken;
+	@include __border-themeDust;
+}

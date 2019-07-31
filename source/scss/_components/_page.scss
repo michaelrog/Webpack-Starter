@@ -1,0 +1,34 @@
+.masthead {
+
+	text-align: center;
+
+	&.__flush {
+		margin-top: -$defaultMargin*1.5;
+	}
+
+}
+
+.mastheadImage {
+	margin: 0 0 $wideMargin*1.5;
+}
+
+.teaser {
+	margin: $wideMargin*1.5 0 $wideMargin*1.2;
+}
+
+
+
+/*
+ * Page loading animation
+ */
+
+.page__loading {
+	transform: scale(0.8);
+	opacity: 0.1;
+}
+
+.page__loaded {
+	transform: scale(1);
+	opacity: 1;
+	background-color: transparent;
+}

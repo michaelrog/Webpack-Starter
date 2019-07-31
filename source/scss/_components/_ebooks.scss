@@ -1,0 +1,25 @@
+.ebookListing_coverImage {
+	margin-left: auto;
+	margin-right: auto;
+	max-width: 17em;
+	border: 7px solid $c-white;
+	@include boxShadow;
+}
+
+.ebookListing_item {
+	display: block;
+	padding: $defaultMargin;
+	text-align: center;
+	text-decoration: none;
+}
+
+.ebookListing_heading {
+	margin-bottom: $defaultMargin/2;
+}
+
+.ebookListing_meta {
+	margin-top: 0;
+	color: $c-plum;
+	@include fontsize($fs-meta);
+	font-style: italic;
+}

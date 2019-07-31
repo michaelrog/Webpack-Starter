@@ -1,0 +1,75 @@
+.articlePreviewCard {
+
+	background-color: rgba(0,0,0,0);
+	//box-shadow: 0 0 $defaultMargin*0.5 rgba(0,0,0,0.1); // card
+	//border-radius: 1px; // card
+
+	.articlePreviewCard_content {
+		//padding: $defaultMargin $defaultMargin*0.7; // card
+		margin-top: $defaultMargin;
+	}
+
+	.articlePreviewCard_title {
+		@include t_h4__sm;
+		margin-bottom: $defaultMargin*0.3;
+	}
+
+	.articlePreviewCard_meta {
+		@include t_altTitle__sm;
+	}
+
+}
+
+
+
+.topicCollection {
+
+	// On a small screeen, we switch from a grid to a slider format for these.
+	@include mqSmallerThan(tabletPortrait) {
+		& {
+			width: 100%;
+		}
+		& > .row {
+			width:100%;
+			display: block;
+			&:after {
+				content: 'flickity';
+				display: none;
+			}
+		}
+	}
+
+	.flickity-page-dots {
+		bottom: 4px;
+	}
+
+	.flickity-prev-next-button.previous {
+		display: none;
+	}
+}
+
+.topicCollection_block {
+
+	margin-bottom: $wideMargin;
+
+	// On a small screen, we will overflow the container into a slider, so these are 1/4 width
+	@include mqSmallerThan(tabletPortrait) {
+		display: block;
+		width: 100%;
+		max-width: 200px;
+		margin-left: $defaultMargin;
+	}
+
+	// Once we get to small tablet size, the container will switch to fixed-full-width, and the blocks can go 2-up.
+	@include mqAtLeast(tabletPortrait)
+	{
+		@include col-i(6);
+	}
+
+	// Finally, nice big screen. The container is still full-width, and the blocks can be 4-up.
+	@include mqAtLeast(tabletLandscape)
+	{
+		@include col-i(3);
+	}
+
+}

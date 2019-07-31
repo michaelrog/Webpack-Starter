@@ -1,0 +1,67 @@
+/*
+ * Super-SASSy mixins
+ */
+
+// c.f. http://zerosixthree.se/8-sass-mixins-you-must-have-in-your-toolbox/
+// c.f. https://css-tricks.com/snippets/sass/strip-unit-function/
+
+@mixin fontsize($size) {
+	font-size: $size * 1px;
+	font-size: rems($size);
+}
+
+@mixin clearfix {
+	*zoom: 1;
+	&:before, &:after {
+		content: " ";
+		display: table;
+	}
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin hidden {
+	display: none !important;
+	visibility: hidden;
+}
+
+@mixin visuallyHidden {
+	margin: -1px;
+	padding: 0;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	clip: rect(0, 0, 0, 0);
+	position: absolute;
+}
+
+// c.f. https://maximilianhoffmann.com/posts/better-font-rendering-on-osx
+@mixin antialiased {
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+// c.f. your mom
+@mixin centerBackground {
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover !important;
+}
+
+@mixin boxShadow {
+	box-shadow: 0 0 $defaultMargin rgba($c-darkGrey, 0.2);
+}
+
+@mixin nakedList {
+
+	list-style: none;
+
+	& > li {
+
+		margin-left: 0;
+
+	}
+
+}

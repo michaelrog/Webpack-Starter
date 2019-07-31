@@ -1,0 +1,218 @@
+//
+// -- Start editing -- //
+//
+
+// Set the number of columns you want to use on your layout.
+$grid-columns: 12 !default;
+// Set the gutter between columns.
+$gutter-width: rems($defaultMargin);
+// Set a margin for the container sides.
+$outer-margin: rems($defaultMargin);
+// Create or remove breakpoints for your project
+// Syntax:
+// name SIZErem,
+$grid-breakpoints: (
+		sm: map-get(map-get($breakpoints, 'tabletPortrait'), 'min'),
+		md: map-get(map-get($breakpoints, 'tabletLandscape'), 'min'),
+		desktop: map-get(map-get($breakpoints, 'desktop'), 'min'),
+		lg: map-get(map-get($breakpoints, 'bigass'), 'min'),
+);
+
+//
+// -- Stop editing -- //
+//
+
+$gutter-compensation: $gutter-width * .5 * -1;
+$half-gutter-width: $gutter-width * .5;
+
+.wrapper {
+	box-sizing: border-box;
+	margin: 0 auto;
+}
+
+.container-fluid {
+	margin-right: auto;
+	margin-left: auto;
+	padding-right: $outer-margin;
+	padding-left: $outer-margin;
+}
+
+.row {
+	box-sizing: border-box;
+	@include flexbox();
+	@include flex(0, 1, auto);
+	@include flex-direction(row);
+	@include flex-wrap(wrap);
+	margin-right: $gutter-compensation;
+	margin-left: $gutter-compensation;
+}
+
+.row.reverse {
+	@include flex-direction(row-reverse);
+}
+
+.col.reverse {
+	@include flex-direction(column-reverse);
+}
+
+@mixin flexboxgrid-sass-col-common {
+	box-sizing: border-box;
+
+	// split @include flex(0, 0, auto) into individual props
+	@include flex-grow(0);
+	@include flex-shrink(0);
+
+	// we leave @include flex-basis(auto) out of common because
+	// in some spots we need it and some we dont
+	// more why here: https://github.com/kristoferjoseph/flexboxgrid/issues/126
+
+	padding-right: $half-gutter-width;
+	padding-left: $half-gutter-width;
+}
+
+@mixin col {
+	@include flexboxgrid-sass-col-common;
+	@include flex-basis(auto);
+	@include flex-basis(0);
+	@include flex-grow(1);
+	max-width: 100%;
+}
+
+@mixin col-i($i: 1) {
+	@include flexboxgrid-sass-col-common;
+	@include flex-basis(100% / $grid-columns * $i);
+	max-width: 100% / $grid-columns * $i;
+}
+
+@mixin col-offset($i: 0)
+{
+	@include flexboxgrid-sass-col-common;
+	@if $i == 0 {
+		margin-left: 0;
+	} @else {
+		margin-left: 100% / $grid-columns * $i;
+	}
+}
+
+.col {
+	@include col;
+}
+@for $i from 1 through $grid-columns {
+	.col-#{$i} {
+		@include col-i($i);
+	}
+}
+@for $i from 0 through $grid-columns {
+	.col-offset-#{$i} {
+		@include col-offset($i);
+	}
+}
+.g-start {
+	@include justify-content(flex-start);
+	text-align: start;
+}
+
+.g-center {
+	@include justify-content(center);
+	text-align: center;
+}
+
+.g-end {
+	@include justify-content(flex-end);
+	text-align: end;
+}
+
+.g-top {
+	@include align-items(flex-start);
+}
+
+.g-middle {
+	@include align-items(center);
+}
+
+.g-bottom {
+	@include align-items(flex-end);
+}
+
+.g-around {
+	@include justify-content(space-around);
+}
+
+.g-between {
+	@include justify-content(space-between);
+}
+
+.g-first {
+	order: -1;
+}
+
+.g-last {
+	order: 1;
+}
+
+
+@each $breakpoint in $grid-breakpoints {
+	$name: nth($breakpoint, 1);
+	$size: nth($breakpoint, 2);
+	$container: 100%;
+	@media only screen and (min-width: $size) {
+		.container {
+			width: $container;
+		}
+		.col-#{$name} {
+			@include col();
+		}
+		@for $i from 1 through $grid-columns {
+			.col-#{$name}-#{$i} {
+				@include col-i($i);
+			}
+		}
+		@for $i from 0 through $grid-columns {
+			.col-#{$name}-offset-#{$i} {
+				@include col-offset($i);
+			}
+		}
+		.g-#{$name}-start {
+			@include justify-content(flex-start);
+			text-align: start;
+		}
+
+		.g-#{$name}-center {
+			@include justify-content(center);
+			text-align: center;
+		}
+
+		.g-#{$name}-end {
+			@include justify-content(flex-end);
+			text-align: end;
+		}
+
+		.g-#{$name}-top {
+			@include align-items(flex-start);
+		}
+
+		.g-#{$name}-middle {
+			@include align-items(center);
+		}
+
+		.g-#{$name}-bottom {
+			@include align-items(flex-end);
+		}
+
+		.g-#{$name}-around {
+			@include justify-content(space-around);
+		}
+
+		.g-#{$name}-between {
+			@include justify-content(space-between);
+		}
+
+		.g-#{$name}-first {
+			order: -1;
+		}
+
+		.g-#{$name}-last {
+			order: 1;
+		}
+	}
+}

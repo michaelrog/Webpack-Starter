@@ -1,0 +1,64 @@
+.mobileNav {
+	position: fixed;
+	top: 75px;
+	z-index: 3;
+	width: 100%;
+	max-height: calc(100vh - 75px);
+	overflow-x: hidden;
+	overflow-y: auto;
+	padding: $defaultMargin 0;
+	background-color: $c-white;
+	@include boxShadow;
+	transform: translate(0, -1000px);
+	opacity: 0.5;
+	transition: transform .7s, opacity .7s;
+}
+
+.mobileNav_item {
+
+	margin: 0 $defaultMargin $navMargin 0;
+	@include titleFont;
+	@include fontsize($defaultFontSize * 0.9);
+	line-height: 1.3;
+
+	& a {
+		text-decoration: none;
+	}
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+
+}
+
+.mobileNav.drawer--open {
+	transform: translate(0, 0);
+	opacity: 1;
+}
+
+.mobileNav.drawer--open .mobileNav_item {
+
+	transform: translate(0, 0);
+	opacity: 1;
+
+	&:nth-child(1) {
+		transition-delay: 0.05s;
+	}
+	&:nth-child(2) {
+		transition-delay: 0.1s;
+	}
+	&:nth-child(3) {
+		transition-delay: 0.15s;
+	}
+	&:nth-child(4) {
+		transition-delay: 0.2s;
+	}
+	&:nth-child(5) {
+		transition-delay: 0.25s;
+	}
+	&:nth-child(6) {
+		transition-delay: 0.3s;
+	}
+
+}
+

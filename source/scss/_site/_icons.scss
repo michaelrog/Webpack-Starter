@@ -1,0 +1,19 @@
+.icon {
+	position: relative;
+	display: inline;
+	display: inline-block;
+	fill: currentColor;
+	width: 1em;
+	height: 1em;
+	max-width: 100%;
+}
+
+.iconCircle {
+	display: inline-block;
+	padding: .20em 0 0;
+	width: 2.25em;
+	height: 2.25em;
+	border-radius: 50%;
+	background-color: $c-darken;
+	text-align: center;
+}

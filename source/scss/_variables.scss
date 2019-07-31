@@ -1,0 +1,281 @@
+/*
+ * Colors
+ */
+
+$c-green: #98cf6d;
+$c-classyGreen: #689f3d;
+$c-red: #C00;
+$c-classyRed: #900;
+$c-yellow: #fe0;
+
+$c-white: #fff;
+$c-black: #000;
+$c-grey: #777;
+$c-darkGrey: #444;
+
+$c-darkRust: #721121; // Podcast
+$c-rust: #b24422; // Movies
+$c-bronze: #b17c03; // c8a34e // Etc.
+$c-daisy: #e8c547;
+$c-sand: #a5978b;
+$c-khaki: #e8dcc7;
+$c-seafoam: #558b6e; // Online
+$c-aqua: #177e89;
+$c-sky: #05668D; // Music
+$c-dusk: #084c71;
+$c-midnight: #363946;
+$c-plum: #6a4c6a; // TV
+$c-plumGrey: #594852;
+$c-beet: #5c063d; // Games
+
+
+/*
+ * Aliases for [New] Topic color schemes
+ */
+
+$c-music: $c-sky;
+$c-movies: $c-rust;
+$c-tv: $c-plum;
+$c-games: $c-beet;
+$c-online: $c-seafoam;
+$c-etc: $c-bronze;
+$c-podcast: $c-darkRust;
+
+
+/*
+ * Dust variants
+ */
+
+$dustMixWeight: 7%;
+$darkMixWeight: 42%;
+
+$c-plumDust: mix($c-plum, $c-white, $dustMixWeight);
+$c-rustDust: mix($c-rust, $c-white, $dustMixWeight);
+$c-greenDust: mix($c-classyGreen, $c-white, $dustMixWeight);
+$c-greyDust: mix($c-grey, $c-white, $dustMixWeight);
+
+$c-musicDust: mix($c-music, $c-white, $dustMixWeight);
+$c-moviesDust: mix($c-movies, $c-white, $dustMixWeight);
+$c-tvDust: mix($c-tv, $c-white, $dustMixWeight);
+$c-gamesDust: mix($c-games, $c-white, $dustMixWeight);
+$c-onlineDust: mix($c-online, $c-white, $dustMixWeight);
+$c-etcDust: mix($c-etc, $c-white, $dustMixWeight);
+$c-podcastDust: mix($c-darkRust, $c-white, $dustMixWeight);
+
+$c-musicDark: mix($c-music, $c-black, $darkMixWeight);
+$c-moviesDark: mix($c-movies, $c-black, $darkMixWeight);
+$c-tvDark: mix($c-tv, $c-black, $darkMixWeight);
+$c-gamesDark: mix($c-games, $c-black, $darkMixWeight);
+$c-onlineDark: mix($c-online, $c-black, $darkMixWeight);
+$c-etcDark: mix($c-etc, $c-black, $darkMixWeight);
+$c-podcastDark: mix($c-darkRust, $c-black, $darkMixWeight);
+
+/*
+ * Aliases for Back-catalog Topic color schemes
+ */
+
+$c-businessEconomics: $c-seafoam;
+$c-scienceTechnology: $c-dusk;
+$c-artsLeisure: $c-aqua;
+$c-theologyChurch: $c-plum;
+$c-newsPolitics: $c-rust;
+$c-homeFamily: $c-bronze;
+
+
+$c-lighten: rgba(255, 255, 255, 0.2);
+$c-darken: rgba(0, 0, 0, 0.2);
+
+
+
+$c-darkGreen: darken($c-classyGreen, 20%);
+
+$colors: (
+
+		rust: $c-rust,
+		bronze: $c-bronze,
+		daisy: $c-daisy,
+		sand: $c-sand,
+		khaki: $c-khaki,
+		seafoam: $c-seafoam,
+		aqua: $c-aqua,
+		sky: $c-sky,
+		dusk: $c-dusk,
+		midnight: $c-midnight,
+		plum: $c-plum,
+		beet: $c-beet,
+
+		green: $c-green,
+		classyGreen: $c-classyGreen,
+		red: $c-red,
+		classyRed: $c-classyRed,
+		grey: $c-grey,
+		white: $c-white,
+		black: $c-black,
+
+		lighten: $c-lighten,
+		darken: $c-darken,
+
+);
+
+/*
+ * ReFrame colors
+ */
+$thisIsToday: #2c5664;
+$thinkChristian: #b24525;
+$familyFire: #24488b;
+$groundwork: #84ba64;
+$churchJuice: #f68d21;
+$kidsCorner: #8e4e9e;
+
+/*
+ * Share colors
+ */
+$facebookBlue: #537bbd;
+$twitterBlue: #78cdf0;
+$rssOrange: #f39200;
+$emailRed: #eb5755;
+
+/*
+ * Color utility classes
+ */
+@each $name, $color in $colors {
+	.c-#{$name} {
+		color: $color;
+	}
+	.c-#{$name}-light {
+		color: lighten($color, 20%);
+	}
+	.c-#{$name}-lighter {
+		color: lighten($color, 40%);
+	}
+	.c-#{$name}-dark {
+		color: darken($color, 20%);
+	}
+	.c-#{$name}-darker {
+		color: darken($color, 40%);
+	}
+	.bg-#{$name} {
+		background-color: $color;
+	}
+	.bg-#{$name}-light {
+		background-color: lighten($color, 20%);
+	}
+	.bg-#{$name}-lighter {
+		background-color: lighten($color, 40%);
+	}
+	.bg-#{$name}-dark {
+		background-color: darken($color, 20%);
+	}
+	.bg-#{$name}-darker {
+		background-color: darken($color, 40%);
+	}
+}
+
+
+/*
+ * Opacity
+ */
+
+$tintOpacity: 0.2;
+$overlayOpacity: 0.5;
+$smokeOpacity: 0.7;
+
+
+/*
+ * Typography
+ */
+
+$defaultFontSize: 20;
+$smallFontSize: 14;
+
+
+/*
+ * Spacing
+ */
+
+$navMargin: rems($smallFontSize);
+$weePadding: $navMargin/3;
+$defaultMargin: rems($defaultFontSize);
+$wideMargin: rems($defaultFontSize*2);
+$defaultPadding: rems($defaultFontSize);
+
+
+/*
+ * Timing
+ */
+
+$transitionTime: .5s;
+$fastTransitionTime: .2s;
+
+
+
+
+
+/*
+ * Dimensions
+ */
+
+$borderRadius: 1px;
+
+$tightFenceWidth: 768px;
+$fenceWidth: 960px;
+$wideFenceWidth: 1280px;
+$standardWidth: 1280px;
+$bodyWidth: 1920px;
+
+// c.f. https://medium.freecodecamp.com/the-100-correct-way-to-do-css-breakpoints-88d6a5ba1862
+$breakpoints: (
+	standard: (min: 0px, max: 999999px),
+	fence: (min: 0px, max: $fenceWidth),
+	phone: (min: 0px, max: 600px),
+	tabletPortrait: (min: 601px, max: 900px), // "sm" grid
+	tabletLandscape: (min: 901px, max: 1200px), // "md" grid
+	desktop: (min: 1201px, max: 1800px), // "desktop" grid
+	bigass: (min: 1801px, max: 999999px), // "lg" grid
+);
+
+
+/*
+ * Flexbox Grid
+ */
+
+$grid-columns: 12;
+
+$gutter-width: rems($defaultFontSize);
+$gutter-width-half: $gutter-width * .5;
+$gutter-width-double: $gutter-width * 2;
+
+$outer-margin: $gutter-width-double * 2;
+
+$gridBreakpoints: (
+		sm: map-get(map-get($breakpoints, 'tabletPortrait'), 'min'),
+		md: map-get(map-get($breakpoints, 'tabletLandscape'), 'min'),
+		desktop: map-get(map-get($breakpoints, 'desktop'), 'min'),
+		lg: map-get(map-get($breakpoints, 'bigass'), 'min'),
+);
+
+$flexboxgrid-max-width: rems($bodyWidth);
+
+
+
+
+
+// Heading font sizes
+$fs-hero: 48;
+$fs-pageHeading: 40;
+$fs-contentHeading: 36;
+$fs-sectionHeading: 30;
+$fs-cardHeading: 24;
+$fs-sidebarHeading: 20;
+$fs-textHeading: $defaultFontSize;
+$fs-meta: $smallFontSize;
+$fs-wee: $smallFontSize*0.9;
+
+// Component font sizes
+$fs-icon: 24;
+$fs-toolbarIcon: 24;
+
+// Font-weights
+$fw-bold: 900;
+$fw-normal: 400;
+$fw-light: 300;

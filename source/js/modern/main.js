@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-console.log("Howdy!");
+console.log("Howdy!!!");
 
 const yar = [].concat([]);
 

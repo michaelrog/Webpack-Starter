@@ -1,0 +1,214 @@
+em, .em {
+	font-style: italic;
+}
+
+strong, .strong {
+	font-weight: bold;
+}
+
+
+@mixin titleFont {
+	font-family: "Martel";
+	font-weight: 900;
+}
+
+@mixin altTitleFont {
+	font-family: "Open Sans";
+	font-weight: 400;
+}
+
+@mixin bodyFont {
+	font-family: "Merriweather";
+	font-weight: 300;
+}
+
+// 'Fix' question marks, because Martel has weird ones and Justin doesn't like them
+.questionMark {
+	font-family: "Merriweather";
+}
+
+
+
+@mixin t_h1 {
+	@include scalingFs($defaultFontSize*1.7, $defaultFontSize*3);
+	@include titleFont;
+	font-weight: 900;
+	line-height: 1.3;
+}
+
+@mixin t_h2 {
+	@include scalingFs($defaultFontSize*1.4, $defaultFontSize*2.4);
+	@include titleFont;
+	font-weight: 900;
+	line-height: 1.4;
+}
+
+@mixin t_h3 {
+	@include scalingFs($defaultFontSize*1, $defaultFontSize*2);
+	@include titleFont;
+	font-weight: 900;
+	line-height: 1.4;
+}
+
+@mixin t_h4 {
+	@include scalingFs($defaultFontSize*1, $defaultFontSize*1.5);
+	@include titleFont;
+	font-weight: 900;
+	line-height: 1.4;
+}
+
+@mixin t_h4__sm {
+	@include t_h4;
+	font-weight: 900;
+	@include scalingFs($smallFontSize*1.2, $defaultFontSize);
+}
+
+// TODO: refactor, merge w/ H5 styles?
+@mixin t_h4__alt {
+	@include scalingFs($defaultFontSize, $defaultFontSize*1.5);
+	@include altTitleFont;
+	font-weight: 900;
+	line-height: 1.4;
+}
+
+// TODO: refactor, merge w/ H5 styles?
+@mixin t_h4__alt__sm {
+	@include t_h4__alt;
+	@include scalingFs($smallFontSize*1.2, $defaultFontSize);
+}
+
+@mixin t_h5 {
+	@include fontsize($defaultFontSize);
+	@include titleFont;
+	font-weight: 900;
+}
+
+
+@mixin t_callout {
+	@include scalingFs($defaultFontSize*1.3, $defaultFontSize*2);
+	line-height: 1.5;
+}
+
+@mixin t_altTitle {
+	@include altTitleFont;
+	text-transform: uppercase;
+}
+
+@mixin t_altTitle__sm {
+	@include fontsize($smallFontSize);
+	@include t_altTitle;
+}
+
+@mixin t_smallish {
+	@include fontsize($defaultFontSize*.85);
+}
+
+
+body {
+	@include fontsize($defaultFontSize);
+	line-height: 1.7;
+	@include bodyFont;
+	color: $c-darkGrey;
+}
+
+
+
+.h1 {
+	@include t_h1;
+	margin: $defaultMargin 0;
+
+}
+
+.h2 {
+	@include t_h2;
+	margin: $defaultMargin 0;
+}
+
+.h3 {
+	@include t_h3;
+	margin: $defaultMargin 0;
+}
+
+.h4 {
+	@include t_h4;
+	margin: $defaultMargin 0;
+}
+
+.h5 {
+	@include t_h5;
+	margin: $defaultMargin 0;
+}
+
+
+
+.body__alt {
+	@include fontsize($defaultFontSize);
+	line-height: 1.7;
+	@include bodyFont;
+	color: $c-darkGrey;
+}
+
+.h3__alt {
+	@include t_h4;
+	@include altTitleFont;
+	font-weight: 700;
+	line-height: 1.3;
+	margin: $defaultMargin 0;
+	text-transform: uppercase;
+}
+
+.h4__alt {
+	@include t_h4__alt;
+	text-transform: uppercase;
+	margin: $defaultMargin 0;
+}
+
+.h4__sm {
+	@include t_h4__sm;
+	margin: $defaultMargin 0;
+}
+
+.h4__alt__sm {
+	@include t_h4__alt__sm;
+	margin: $defaultMargin 0;
+}
+
+
+.t_callout {
+	@include t_callout;
+}
+
+.t_altTitle {
+	@include t_altTitle;
+}
+
+.t_altTitle__sm {
+	@include t_altTitle__sm;
+}
+
+.t_smallish {
+	@include t_smallish;
+}
+
+
+.__flipDecoration {
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.__noDecoration {
+	text-decoration: none;
+}
+
+
+.t_left {
+	text-align: left;
+}
+.t_right {
+	text-align: right;
+}
+.t_center {
+	text-align: center;
+}

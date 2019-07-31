@@ -1,0 +1,275 @@
+/*
+ * Themes
+ */
+
+.__c-theme {
+
+	.__default & {
+		color: $c-rust;
+	}
+
+	.__tv & {
+		color: $c-tv;
+	}
+
+	.__movies & {
+		color: $c-movies;
+	}
+
+	.__music & {
+		color: $c-music;
+	}
+
+	.__games & {
+		color: $c-games;
+	}
+
+	.__online & {
+		color: $c-online;
+	}
+
+	.__culture & {
+		color: $c-etc;
+	}
+
+	.__podcast & {
+		color: $c-podcast;
+	}
+
+	.__tc & {
+		color: $c-rust;
+	}
+
+}
+
+.__bg-theme {
+
+	.__default & {
+		background-color: $c-rust;
+	}
+
+	.__tv & {
+		background-color: $c-tv;
+	}
+
+	.__movies & {
+		background-color: $c-movies;
+	}
+
+	.__music & {
+		background-color: $c-music;
+	}
+
+	.__games & {
+		background-color: $c-games;
+	}
+
+	.__online & {
+		background-color: $c-online;
+	}
+
+	.__culture & {
+		background-color: $c-etc;
+	}
+
+	.__podcast & {
+		background-color: $c-podcast;
+	}
+
+}
+
+@mixin __bg-themeDust() {
+
+	.__default & {
+		background-color: $c-rustDust;
+	}
+
+	.__music & {
+		background-color: $c-musicDust;
+	}
+
+	.__movies & {
+		background-color: $c-moviesDust;
+	}
+
+	.__tv & {
+		background-color: $c-tvDust;
+	}
+
+	.__games & {
+		background-color: $c-gamesDust;
+	}
+
+	.__online & {
+		background-color: $c-onlineDust;
+	}
+
+	.__culture & {
+		background-color: $c-etcDust;
+	}
+
+	.__podcast & {
+		background-color: $c-podcast;
+	}
+
+}
+
+.__bg-themeDust {
+	@include __bg-themeDust;
+}
+
+.__border-theme {
+
+	.__default & {
+		border-color: $c-rust;
+	}
+
+	.__tv & {
+		border-color: $c-tv;
+	}
+
+	.__movies & {
+		border-color: $c-movies;
+	}
+
+	.__music & {
+		border-color: $c-music;
+	}
+
+	.__games & {
+		border-color: $c-games;
+	}
+
+	.__online & {
+		border-color: $c-online;
+	}
+
+	.__culture & {
+		border-color: $c-etc;
+	}
+
+	.__podcast & {
+		border-color: $c-podcast;
+	}
+
+	.__tc & {
+		border-color: $c-rust;
+	}
+
+}
+
+@mixin __border-themeDust() {
+
+	.__default & {
+		border-color: $c-rustDust;
+	}
+
+	.__tv & {
+		border-color: $c-tvDust;
+	}
+
+	.__movies & {
+		border-color: $c-moviesDust;
+	}
+
+	.__music & {
+		border-color: $c-musicDust;
+	}
+
+	.__games & {
+		border-color: $c-gamesDust;
+	}
+
+	.__online & {
+		border-color: $c-onlineDust;
+	}
+
+	.__culture & {
+		border-color: $c-etcDust;
+	}
+
+	.__podcast & {
+		border-color: $c-podcastDust;
+	}
+
+	.__tc & {
+		border-color: $c-rustDust;
+	}
+
+}
+
+.__border-themeDust {
+	@include __border-themeDust;
+}
+
+.__button-theme {
+
+	.__default & {
+		color: $c-white;
+		background-color: $c-rust;
+		&:hover {
+			background-color: transparentize($c-rust, .1);
+		}
+	}
+
+	.__tv & {
+		color: $c-white;
+		background-color: $c-tv;
+		&:hover {
+			background-color: lighten($c-tv, 10%);
+		}
+	}
+
+	.__movies & {
+		color: $c-white;
+		background-color: $c-movies;
+		&:hover {
+			background-color: lighten($c-movies, 10%);
+		}
+	}
+
+	.__music & {
+		@include buttonColors($c-music, $c-white);
+	}
+
+	.__games & {
+		color: $c-white;
+		background-color: $c-games;
+		&:hover {
+			background-color: lighten($c-games, 10%);
+		}
+	}
+
+	.__online & {
+		color: $c-white;
+		background-color: $c-online;
+		&:hover {
+			background-color: lighten($c-online, 10%);
+		}
+	}
+
+	.__culture & {
+		color: $c-white;
+		background-color: $c-etc;
+		&:hover {
+			background-color: lighten($c-etc, 10%);
+		}
+	}
+
+	.__podcast & {
+		color: $c-white;
+		background-color: $c-podcast;
+		&:hover {
+			background-color: lighten($c-podcast, 10%);
+		}
+	}
+
+	.__tc & {
+		color: $c-white;
+		background-color: $c-rust;
+		&:hover {
+			background-color: lighten($c-rust, 10%);
+		}
+	}
+
+}

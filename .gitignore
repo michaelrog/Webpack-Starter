@@ -1,0 +1,62 @@
+# ### === .gitignore === ### #
+
+
+# --- Exclude personal working files, environment variable files, and other private stuff we don't want to version
+
+personal/
+working/
+**/*templates/dev/
+
+.env
+.env.php
+
+
+# --- Exclude OS meta files and server cruft
+
+Thumbs.db
+.DS_Store
+
+.ftpquota
+cgi-bin
+error_log
+log.htm
+
+
+# --- Exclude workflow cruft
+
+/.idea/*
+.sass-cache
+node_modules
+npm-debug.log
+*.swp
+.*~
+bower_components
+
+yarn.lock
+yarn-error.log
+composer.lock
+
+
+# --- Exclude vendor Git repositories
+
+**/vendor/**/.git
+
+
+# --- Exclude Backups and Caches
+
+# Some caches are excluded via .gitignore directives placed in those directories,
+# in order to retain the directory structure but keep the directories clean for the repo.
+
+public/**/_*
+craft/storage/runtime/*
+**/backups/
+
+
+# --- Exclude dev-only plugins
+/craft/plugins/blueprint/
+
+
+# --- Include .gitignore directives
+
+!.gitignore
+!*/.gitignore

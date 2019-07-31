@@ -1,0 +1,82 @@
+[type=submit] {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
+
+input.__block, textarea.__block {
+	display: block;
+	width: 100%;
+	padding: $navMargin/2 $navMargin;
+}
+
+input.__colored, textarea.__colored {
+	background: $c-lighten;
+	border: 1px dotted $c-darken;
+}
+
+label.__meta {
+	@include fontsize($fs-meta);
+}
+
+.form__articleInline {
+
+	margin: 0 0 $wideMargin;
+	padding: $wideMargin;
+	background: mix($c-grey, $c-white, 7%);
+	border-top: 7px solid $c-plum;
+
+	.formHeading {
+		margin-top: 0;
+		font-weight: $fw-bold;
+	}
+
+	.formField {
+
+		width: 100%;
+
+		> label {
+			display: block;
+			margin: $navMargin 0;
+			@include altTitleFont;
+			@include fontsize($smallFontSize);
+			font-weight: $fw-bold;
+		}
+
+		& div.input {
+			width: 100%;
+		}
+
+		& input, textarea {
+			display: block;
+			width: 100%;
+			padding: $navMargin/2 $navMargin;
+			background: $c-lighten;
+			border: 1px dotted $c-darken;
+		}
+
+	}
+
+	.formField__hidden {
+		display: none !important;
+	}
+
+	.formSubmit {
+
+		input[type=submit] {
+			display: inline-block;
+			margin-top: $navMargin;
+			padding: $navMargin $defaultMargin;
+			@include buttonColors($c-plum, $c-white);
+			@include altTitleFont;
+			@include t_smallish;
+			font-weight: $fw-bold;
+			text-transform: uppercase;
+			line-height: 1;
+			cursor: pointer;
+
+		}
+
+	}
+
+}

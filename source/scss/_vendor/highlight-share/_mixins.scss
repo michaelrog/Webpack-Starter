@@ -1,0 +1,28 @@
+@mixin highlight-share-transform($transformation...) {
+    -webkit-transform: $transformation;
+        -ms-transform: $transformation;
+            transform: $transformation;
+}
+@mixin highlight-share-animation($animation...) {
+    -webkit-animation: $animation;
+            animation: $animation;
+}
+@mixin highlight-share-filter($filter...) {
+    -webkit-filter: $filter;
+            filter: $filter;
+}
+
+@mixin highlight-share-on-bottom() {
+    &::before {
+        bottom: auto;
+        top: 100%;
+        border-width: 0 $highlight-share-arrow-size $highlight-share-arrow-size;
+        margin-top: 0;
+    }
+
+    > ul {
+        top: 100%;
+        transform: translateX(-50%);
+        margin: $highlight-share-arrow-size 0 0;
+    }
+}
