@@ -1,0 +1,64 @@
+{
+	"name": "rog-fe",
+	"version": "1.0.0",
+	"description": "A new front-end build setup.",
+	"private": true,
+	"author": {
+		"name": "Michael Rog",
+		"email": "michael@michaelrog.com",
+		"url": "https://michaelrog.com"
+	},
+	"browserslist": {
+		"production": [
+			"defaults"
+		],
+		"legacyBrowsers": [
+			"> 0.5%",
+			"last 2 versions",
+			"Firefox ESR",
+			"not dead"
+		],
+		"modernBrowsers": [
+			"last 2 Chrome versions",
+			"last 2 Safari versions",
+			"last 2 iOS versions",
+			"last 2 Firefox versions",
+			"last 2 Edge versions"
+		]
+	},
+	"devDependencies": {
+		"@babel/core": "^7.5.5",
+		"@babel/plugin-syntax-dynamic-import": "^7.2.0",
+		"@babel/plugin-transform-runtime": "^7.5.5",
+		"@babel/preset-env": "^7.5.5",
+		"@babel/runtime": "^7.5.5",
+		"babel-loader": "^8.0.6",
+		"clean-webpack-plugin": "^3.0.0",
+		"copy-webpack-plugin": "^5.0.4",
+		"css-loader": "^3.1.0",
+		"dotenv": "^8.0.0",
+		"ignore-loader": "^0.1.2",
+		"postcss-loader": "^3.0.0",
+		"svg-spritemap-webpack-plugin": "^3.4.0",
+		"vue-loader": "^15.7.1",
+		"vue-style-loader": "^4.1.2",
+		"vue-template-compiler": "^2.6.10",
+		"webpack": "^4.38.0",
+		"webpack-cli": "^3.3.6",
+		"webpack-dashboard": "^3.0.7",
+		"webpack-dev-server": "^3.7.2",
+		"webpack-manifest-plugin": "^2.0.4",
+		"webpack-merge": "^4.2.1"
+	},
+	"dependencies": {
+		"core-js": "^3.0.0",
+		"tailwindcss": "^1.0.5",
+		"vue": "^2.6.10"
+	},
+	"scripts": {
+		"build:dev": "NODE_ENV=development webpack --config _webpack/webpack.awesome.js --progress --hide-modules",
+		"build:prod": "NODE_ENV=production webpack --config _webpack/webpack.awesome.js --progress --hide-modules",
+		"serve": "webpack-dashboard -- webpack-dev-server --config _webpack/webpack.dev.js",
+		"serve:debug": "webpack-dev-server --config _webpack/webpack.dev.js"
+	}
+}
