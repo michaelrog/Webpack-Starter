@@ -12,6 +12,7 @@ const _merge = require('webpack-merge');
  */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 
 /*
@@ -117,6 +118,47 @@ const ManifestPluginOptions = (fileName) => {
 };
 
 /**
+ * Provides an array of Webpack rules definitions that handle CSS compilation via postcss-loader, etc.
+ *
+ * @returns Object[]
+ */
+const PostcssLoaderRules = () => {
+    return [
+        {
+            test: /\.(pcss|css)$/,
+            use: [
+                MiniCssExtractPlugin.loader,
+                // {
+                //     loader: 'style-loader',
+                // },
+                // {
+                //     loader: 'vue-style-loader',
+                // },
+                {
+                    loader: 'css-loader',
+                    options: {
+                        importLoaders: 1,
+                        sourceMap: true
+                    }
+                },
+                // {
+                //     loader: 'resolve-url-loader'
+                // },
+                {
+                    loader: 'postcss-loader',
+                    options: {
+                        config: {
+                            path: './_build/',
+                        },
+                        sourceMap: true
+                    }
+                }
+            ]
+        }
+    ];
+};
+
+/**
  * Configuration options for SVGSpritemap plugin
  * @see https://github.com/cascornelissen/svg-spritemap-webpack-plugin/blob/master/docs/options.md
  *
@@ -171,16 +213,24 @@ const VueLoaderRules = () => {
 };
 
 
+
+
+
 module.exports = (env, argv) => {
     console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
     return [
         {
             name: 'default',
-            entry: settings.paths.source.js + 'main.js',
+            entry: {
+                'main': [
+                    settings.paths.source.js + 'main.js',
+                    settings.paths.source.css + 'main.pcss',
+                ],
+            },
             output: {
-                path: project.getDistPath(),
+                path: project.getDistPath('default'),
                 publicPath: settings.paths.dist.publicPath,
-                filename: '[name].[chunkhashs].js'
+                filename: '[name].[chunkhash].js'
             },
             resolve: {
                 alias: {
@@ -193,23 +243,32 @@ module.exports = (env, argv) => {
                 rules: [
                     ...BabelLoaderRules(pkg.browserslist.modernBrowsers),
                     ...VueLoaderRules(),
+                    ...PostcssLoaderRules(),
                     ...FontLoaderRules(),
                 ]
             },
             plugins: [
                 ...SVGSpritemapPluginInstances(),
+                new MiniCssExtractPlugin({
+                    filename: '[name].[contenthash].css',
+                }),
                 new ManifestPlugin(
-                    ManifestPluginOptions('manifest-modern.json')
+                    ManifestPluginOptions('manifest-default.json')
+                ),
+                new CleanWebpackPlugin(
+                    CleanWebpackPluginOptions(project.getDistPath('default'))
                 ),
             ],
         },
         {
             name: 'legacy',
-            entry: settings.paths.source.js + 'main.js',
+            entry: {
+                'main': settings.paths.source.js + 'main.js',
+            },
             output: {
                 path: project.getDistPath('legacy'),
                 publicPath: settings.paths.dist.publicPath + 'legacy/',
-                filename: '[name].[chunkhashs].js'
+                filename: '[name].[chunkhash].js'
             },
             resolve: {
                 alias: {
@@ -226,15 +285,11 @@ module.exports = (env, argv) => {
             },
             plugins: [
                 new ManifestPlugin(
-                    ManifestPluginOptions('manifest-other.json')
+                    ManifestPluginOptions('manifest-legacy.json')
                 ),
-                /*
-                 * We only include the CleanWebpackPlugin in the last build child.
-                 * Otherwise, it'd nuke things prematurely and cause directory-not-found errors.
-                 */
                 new CleanWebpackPlugin(
-                    CleanWebpackPluginOptions(project.getDistPath())
-                ),
+                    CleanWebpackPluginOptions(project.getDistPath('legacy'))
+                )
             ],
         }
     ];
