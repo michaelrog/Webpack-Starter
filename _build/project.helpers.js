@@ -1,15 +1,13 @@
 // Node modules
 const _path = require('path');
 
-// Config files
+// Config
 const settings = require('./project.settings.js');
 
-// Webpack project settings exports
-// noinspection WebpackConfigHighlighting
 module.exports = {
 
     getProjectPath: (...paths) => {
-        return _path.resolve('', ...paths);
+        return _path.resolve('./', ...paths);
     },
 
     getSourcePath: (...paths) => {
@@ -23,6 +21,8 @@ module.exports = {
     getMode: () => {
         return (process.env.NODE_ENV === 'production' ? 'production' : 'development');
     },
+
+    inDev: () => (process.env.NODE_ENV === 'development'),
 
     inProduction: () => (process.env.NODE_ENV === 'production'),
 

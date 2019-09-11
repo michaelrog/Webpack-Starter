@@ -1,19 +1,10 @@
-const LEGACY_CONFIG = 'legacy';
-const MODERN_CONFIG = 'modern';
-
-/*
- * Node modules
- */
-const _path = require('path');
-const _merge = require('webpack-merge');
-
 /*
  * Webpack plugins
  */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
+const WebpackManifestPlugin = require('webpack-manifest-plugin');
 
 /*
  * Setup files
@@ -22,11 +13,15 @@ const pkg = require('../package.json');
 const settings = require('./project.settings.js');
 const project = require('./project.helpers.js');
 
+/*
+ *
+ */
+const includeFilenameHashes = !!parseInt(settings.webpack.includeFilenameHashes);
 
 /**
  * Provides an array of Webpack rules definitions that handle JS compilation via `babel-loader`
  *
- * @param browserList
+ * @param browsers
  *
  * @returns Object[]
  */
@@ -83,6 +78,42 @@ const CleanWebpackPluginOptions = (root) => {
 };
 
 /**
+ * Configure the webpack-dev-server
+ *
+ * @param buildType
+ *
+ * @returns Object
+ */
+const DevServerConfig = () => {
+
+    return {
+        public: settings.devServerConfig.public,
+        contentBase: project.getProjectPath(settings.paths.source.templates),
+        host: settings.devServerConfig.host,
+        port: settings.devServerConfig.port,
+        https: !!parseInt(settings.devServerConfig.https),
+        disableHostCheck: true,
+        proxy: settings.devServerConfig.proxy ? {
+            '*': {
+                target: settings.devServerConfig.proxy,
+                changeOrigin: true,
+            }
+        } : null,
+        hot: true,
+        overlay: true,
+        watchContentBase: true,
+        watchOptions: {
+            poll: !!parseInt(settings.devServerConfig.poll),
+            ignored: settings.devServerConfig.ignored,
+        },
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'X-WebpackDevServer': settings.devServerConfig.public
+        },
+    };
+};
+
+/**
  * Provides an array of Webpack rules definitions that handle fonts (i.e. copying them to dist via file-loader).
  *
  * @returns Object[]
@@ -104,36 +135,22 @@ const FontLoaderRules = () => {
 };
 
 /**
- * Configuration for ManifestPlugin plugin
- * @see https://github.com/danethurber/webpack-manifest-plugin
- *
- * @param fileName
- *
- * @returns Object
- */
-const ManifestPluginOptions = (fileName) => {
-    return {
-        fileName: fileName,
-    };
-};
-
-/**
  * Provides an array of Webpack rules definitions that handle CSS compilation via postcss-loader, etc.
  *
  * @returns Object[]
  */
-const PostcssLoaderRules = () => {
+const StyleCompilationRules = () => {
     return [
         {
             test: /\.(pcss|css)$/,
             use: [
-                MiniCssExtractPlugin.loader,
-                // {
-                //     loader: 'style-loader',
-                // },
-                // {
-                //     loader: 'vue-style-loader',
-                // },
+                {
+                    loader: MiniCssExtractPlugin.loader,
+                    options: {
+                        hmr: project.inDev(),
+                        // reloadAll: true,
+                    },
+                },
                 {
                     loader: 'css-loader',
                     options: {
@@ -141,9 +158,6 @@ const PostcssLoaderRules = () => {
                         sourceMap: true
                     }
                 },
-                // {
-                //     loader: 'resolve-url-loader'
-                // },
                 {
                     loader: 'postcss-loader',
                     options: {
@@ -172,7 +186,7 @@ const SVGSpritemapPluginOptions = (name) => {
             chunk: {
                 name: name,
             },
-            filename: 'svg/' + name + '.[contenthash].svg'
+            filename: 'svg/' + name + (includeFilenameHashes ? '.[contenthash]' : '') + '.svg'
         },
         sprite: {
             prefix: false,
@@ -212,71 +226,81 @@ const VueLoaderRules = () => {
     ];
 };
 
-
+/**
+ * Configuration for WebpackManifestPlugin plugin
+ * @see https://github.com/danethurber/webpack-manifest-plugin
+ *
+ * @param fileName
+ *
+ * @returns Object
+ */
+const WebpackManifestPluginOptions = (fileName) => {
+    return {
+        fileName: fileName,
+    };
+};
 
 
 
 module.exports = (env, argv) => {
-    console.log("process.env.NODE_ENV:", process.env.NODE_ENV);
+
+    console.table({
+        'process.env.NODE_ENV': process.env.NODE_ENV,
+        'devServerConfig.public': settings.devServerConfig.public,
+    });
+
+    const commonOptions = {
+        resolve: {
+            alias: {
+                'vue$': 'vue/dist/vue.esm.js'
+            }
+        },
+        mode: project.getMode(),
+        devServer: DevServerConfig(),
+        devtool: project.inProduction() ? 'source-map' : 'inline-source-map',
+    };
+
     return [
         {
+            ...commonOptions,
             name: 'default',
-            entry: {
-                'main': [
-                    settings.paths.source.js + 'main.js',
-                    settings.paths.source.css + 'main.pcss',
-                ],
-            },
+            entry: settings.entries.default,
             output: {
-                path: project.getDistPath('default'),
+                path: project.getDistPath(''),
                 publicPath: settings.paths.dist.publicPath,
-                filename: '[name].[chunkhash].js'
+                filename: '[name]' + (includeFilenameHashes ? '.[chunkhash]' : '') + '.js'
             },
-            resolve: {
-                alias: {
-                    'vue$': 'vue/dist/vue.esm.js'
-                }
-            },
-            mode: project.getMode(),
-            devtool: project.inProduction() ? 'source-map' : 'inline-source-map',
             module: {
                 rules: [
                     ...BabelLoaderRules(pkg.browserslist.modernBrowsers),
-                    ...VueLoaderRules(),
-                    ...PostcssLoaderRules(),
                     ...FontLoaderRules(),
+                    ...StyleCompilationRules(),
+                    ...VueLoaderRules(),
                 ]
             },
             plugins: [
+                // new CleanWebpackPlugin(
+                //     CleanWebpackPluginOptions(project.getDistPath('default'))
+                // ),
                 ...SVGSpritemapPluginInstances(),
                 new MiniCssExtractPlugin({
-                    filename: '[name].[contenthash].css',
+                    filename: '[name]' + (includeFilenameHashes ? '.[contenthash]' : '') +  '.css',
                 }),
-                new ManifestPlugin(
-                    ManifestPluginOptions('manifest-default.json')
+                new WebpackManifestPlugin(
+                    WebpackManifestPluginOptions('manifest-default.json')
                 ),
-                new CleanWebpackPlugin(
-                    CleanWebpackPluginOptions(project.getDistPath('default'))
-                ),
+
             ],
         },
         {
+            ...commonOptions,
             name: 'legacy',
-            entry: {
-                'main': settings.paths.source.js + 'main.js',
-            },
+            entry: settings.entries.legacy,
             output: {
-                path: project.getDistPath('legacy'),
-                publicPath: settings.paths.dist.publicPath + 'legacy/',
-                filename: '[name].[chunkhash].js'
+                path: project.getDistPath(''),
+                publicPath: settings.paths.dist.publicPath,
+                filename: '[name].legacy' + (includeFilenameHashes ? '.[chunkhash]' : '') + '.js'
             },
-            resolve: {
-                alias: {
-                    'vue$': 'vue/dist/vue.esm.js'
-                }
-            },
-            mode: project.getMode(),
-            devtool: project.inProduction() ? 'source-map' : 'inline-source-map',
             module: {
                 rules: [
                     ...BabelLoaderRules(pkg.browserslist.legacyBrowsers),
@@ -284,11 +308,12 @@ module.exports = (env, argv) => {
                 ]
             },
             plugins: [
-                new ManifestPlugin(
-                    ManifestPluginOptions('manifest-legacy.json')
-                ),
                 new CleanWebpackPlugin(
-                    CleanWebpackPluginOptions(project.getDistPath('legacy'))
+                    // CleanWebpackPluginOptions(project.getDistPath('legacy'))
+                    CleanWebpackPluginOptions(project.getDistPath(''))
+                ),
+                new WebpackManifestPlugin(
+                    WebpackManifestPluginOptions('manifest-legacy.json')
                 )
             ],
         }
