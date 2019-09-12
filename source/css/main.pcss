@@ -1,12 +1,33 @@
+/**
+ * This injects Tailwind's base styles, which is a combination of
+ * Normalize.css and some additional base styles.
+ */
 @import "tailwindcss/base";
 
+/**
+ * This injects any component classes registered by plugins.
+ *
+ */
+@import 'tailwindcss/components';
+
+/**
+ * This injects all of Tailwind's utility classes, generated based on your
+ * config file.
+ *
+ */
+@import 'tailwindcss/utilities';
+
+
+
 html {
-	color: #ffffff;
-	background-color: #0d3331;
+	color: white;
+	background-color: orangered;
 }
 
-.other {
-	color: #ffffff;
+#app {
+	background-color: maroon;
 }
 
-a { color: #y3; };
+.unused {
+	color: green;
+}

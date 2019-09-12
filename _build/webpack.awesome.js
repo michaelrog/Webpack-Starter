@@ -2,7 +2,9 @@
  * Webpack plugins
  */
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CriticalCssPlugin = require('critical-css-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SaveRemoteFilePlugin = require('save-remote-file-webpack-plugin');
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 
@@ -75,6 +77,48 @@ const CleanWebpackPluginOptions = (root) => {
         verbose: true,
         dry: false
     };
+};
+
+/**
+ * Configuration options for CriticalCssPlugin
+ * @see https://www.npmjs.com/package/critical-css-webpack-plugin
+ *
+ * @param name
+ * @param url
+ * @param amp
+ *
+ * @returns Object
+ */
+const CriticalCssPluginOptions = (name, url, amp) => {
+    return {
+        src: settings.criticalCss.baseUrl + url,
+        dest: project.getDistPath(settings.criticalCss.destPath, (name + settings.criticalCss.suffix)),
+        extract: false,
+        inline: false,
+        minify: true,
+        dimensions: (amp ? settings.criticalCss.ampDimensions : settings.criticalCss.dimensions),
+    };
+};
+
+/**
+ * Generates an instance of CriticalCssPlugin for each entry in `settings.criticalCss.entries` and `settings.criticalCss.ampEntries`.
+ * (These instances will be merged into `module.exports.plugins` to spawn Critical CSS extraction for various routes.)
+ *
+ * @returns Array
+ */
+const CriticalCssPluginInstances = () => {
+    let instances = [];
+    // Normal views
+    for ([name, url] of Object.entries(settings.criticalCss.entries)) {
+        let instance = new CriticalCssPlugin(CriticalCssPluginOptions(name, url, false));
+        instances.push(instance);
+    }
+    // AMP views
+    for ([name, url] of Object.entries(settings.criticalCss.ampEntries)) {
+        let instance = new CriticalCssPlugin(CriticalCssPluginOptions(name, url, true));
+        instances.push(instance);
+    }
+    return instances;
 };
 
 /**
@@ -279,9 +323,10 @@ module.exports = (env, argv) => {
                 ]
             },
             plugins: [
-                // new CleanWebpackPlugin(
-                //     CleanWebpackPluginOptions(project.getDistPath('default'))
-                // ),
+                ...(project.inProduction() ? CriticalCssPluginInstances() : []),
+                new SaveRemoteFilePlugin(
+                    settings.saveRemoteFileConfig
+                ),
                 ...SVGSpritemapPluginInstances(),
                 new MiniCssExtractPlugin({
                     filename: '[name]' + (includeFilenameHashes ? '.[contenthash]' : '') +  '.css',
@@ -309,8 +354,11 @@ module.exports = (env, argv) => {
             },
             plugins: [
                 new CleanWebpackPlugin(
-                    // CleanWebpackPluginOptions(project.getDistPath('legacy'))
-                    CleanWebpackPluginOptions(project.getDistPath(''))
+                    /*
+                     * N.B. clean-webpack-plugin is only invoked in the final webpack configuration. Cleaning up in
+                     * earlier configs could leave things broken from mysteriously missing files/directories.
+                     */
+                    CleanWebpackPluginOptions(project.getDistPath())
                 ),
                 new WebpackManifestPlugin(
                     WebpackManifestPluginOptions('manifest-legacy.json')

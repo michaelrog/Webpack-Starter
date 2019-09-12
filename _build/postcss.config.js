@@ -50,6 +50,8 @@ module.exports = {
             content: [
                 project.getSourcePath('craft_templates') + '/**/*.{twig,html}',
                 project.getSourcePath('vue') + '/**/*.{vue,html}',
+                project.getProjectPath('web') + '/*.html',
+                project.getProjectPath('web') + '/**/*.html',
             ],
             extractors: [
                 {

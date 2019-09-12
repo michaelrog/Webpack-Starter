@@ -22,6 +22,8 @@ settings.paths = {
 };
 
 settings.urls = {
+	local: 'http://fe.l',
+	production: 'http://fe.l',
 	publicPath: process.env.PUBLIC_PATH || "/dist/",
 };
 
@@ -52,8 +54,34 @@ settings.babelLoaderConfig = {
 	],
 };
 
+settings.criticalCss = {
+	destPath: "critical",
+	suffix: ".critical.min.css",
+	baseUrl: settings.urls.local,
+	dimensions: [
+		{
+			height: 1200,
+			width: 1200,
+		}
+	],
+	entries: {
+		'index': '',
+	},
+	ampDimensions: [
+		{
+			height: 19200,
+			width: 600,
+		}
+	],
+	ampEntries: {
+		'amp-index': '',
+	}
+};
+
+
 settings.purgeCssConfig = {
 	paths: [
+		"./web/**.{html}",
 		"./source/craft_templates/**/*.{twig,html}",
 		"./source/vue/**/*.{vue,html}"
 	],
@@ -68,6 +96,13 @@ settings.purgeCssConfig = {
 		'vue',
 	],
 };
+
+settings.saveRemoteFileConfig = [
+	{
+		url: "https://www.google-analytics.com/analytics.js",
+		filepath: "google-analytics.js"
+	}
+];
 
 settings.devServerConfig = {
     public: process.env.DEVSERVER_PUBLIC || "http://localhost:8080",
@@ -88,47 +123,10 @@ module.exports = settings;
 
 
 
+
+
+
 const unusedSettings = {
-	criticalCssConfig: {
-		base: "./web/dist/criticalcss/",
-		suffix: "_critical.min.css",
-		criticalHeight: 1200,
-		criticalWidth: 1200,
-		ampPrefix: "amp_",
-		ampCriticalHeight: 19200,
-		ampCriticalWidth: 600,
-		pages: [
-			{
-				url: "",
-				template: "index"
-			}
-		]
-	},
-	devServerConfig: {
-		public: () => process.env.DEVSERVER_PUBLIC || "http://localhost:8080",
-		host: () => process.env.DEVSERVER_HOST || "localhost",
-		poll: () => process.env.DEVSERVER_POLL || false,
-		port: () => process.env.DEVSERVER_PORT || 8080,
-		https: () => process.env.DEVSERVER_HTTPS || false,
-	},
-	copyWebpackConfig: [
-		{
-			from: "./source/js/workbox-catch-handler.js",
-			to: "js/[name].[ext]"
-		}
-	],
-	saveRemoteFileConfig: [
-		{
-			url: "https://www.google-analytics.com/analytics.js",
-			filepath: "js/analytics.js"
-		}
-	],
-	createSymlinkConfig: [
-		{
-			origin: "img/favicons/favicon.ico",
-			symlink: "../favicon.ico"
-		}
-	],
 	webappConfig: {
 		logo: "./source/img/favicon.png",
 		prefix: "img/favicons/"
@@ -162,8 +160,5 @@ const unusedSettings = {
 				}
 			}
 		]
-	},
-	vars: {
-		cssName: "styles"
 	},
 };
