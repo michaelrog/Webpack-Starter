@@ -1,6 +1,7 @@
 // node modules
 require('dotenv').config();
 
+const asBoolean = function(val) { return val === 'Y' || val === 'y' || parseInt(val) === 1; };
 
 const settings = {
 	name: "Rog-FE",
@@ -13,7 +14,7 @@ settings.paths = {
 		css: "./source/css/",
 		js: "./source/js/",
 		svg: "./source/svg/",
-		templates: "./source/templates/",
+		templates: "./source/craft-templates/",
 	},
 	dist: {
 		base: "./web/dist/",
@@ -22,9 +23,7 @@ settings.paths = {
 };
 
 settings.urls = {
-	local: 'http://fe.l',
-	production: 'http://fe.l',
-	publicPath: process.env.PUBLIC_PATH || "/dist/",
+	base: process.env.BASE_URL,
 };
 
 settings.svgSprites = {
@@ -34,18 +33,19 @@ settings.svgSprites = {
 
 settings.entries = {
 	default: {
-		'main': [
-			settings.paths.source.js + 'main.js',
-			settings.paths.source.css + 'main.pcss',
+		'site': [
+			settings.paths.source.js + 'site.js',
+			settings.paths.source.css + 'site.pcss',
 		],
 	},
-	legacy: {
-		'main': settings.paths.source.js + 'main.js',
+	modern: {
+		'site': settings.paths.source.js + 'site.js',
 	},
 };
 
 settings.webpack = {
-	includeFilenameHashes: process.env.WEBPACK_INCLUDE_FILENAME_HASHES || false,
+	includeFilenameHashes: asBoolean(process.env.WEBPACK_INCLUDE_FILENAME_HASHES) || false,
+	clean: true,
 };
 
 settings.babelLoaderConfig = {
@@ -57,7 +57,7 @@ settings.babelLoaderConfig = {
 settings.criticalCss = {
 	destPath: "critical",
 	suffix: ".critical.min.css",
-	baseUrl: settings.urls.local,
+	baseUrl: settings.urls.base,
 	dimensions: [
 		{
 			height: 1200,
@@ -82,7 +82,7 @@ settings.criticalCss = {
 settings.purgeCssConfig = {
 	paths: [
 		"./web/**.{html}",
-		"./source/craft_templates/**/*.{twig,html}",
+		"./source/craft-templates/**/*.{twig,html}",
 		"./source/vue/**/*.{vue,html}"
 	],
 	whitelist: [

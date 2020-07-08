@@ -48,7 +48,7 @@ module.exports = {
         }),
         require('@fullhuman/postcss-purgecss')({
             content: [
-                project.getSourcePath('craft_templates') + '/**/*.{twig,html}',
+                project.getSourcePath('craft-templates') + '/**/*.{twig,html}',
                 project.getSourcePath('vue') + '/**/*.{vue,html}',
                 project.getProjectPath('web') + '/*.html',
                 project.getProjectPath('web') + '/**/*.html',

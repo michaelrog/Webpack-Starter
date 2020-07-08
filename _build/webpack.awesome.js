@@ -1,10 +1,12 @@
 /*
  * Webpack plugins
  */
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const CriticalCssPlugin = require('critical-css-webpack-plugin');
+const Del = require('del');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const SaveRemoteFilePlugin = require('save-remote-file-webpack-plugin');
+const SaveRemoteFilePlugin = require('./SaveRemoteFilePlugin');
+const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
 const SVGSpritemapPlugin = require('svg-spritemap-webpack-plugin');
 const WebpackManifestPlugin = require('webpack-manifest-plugin');
 
@@ -28,6 +30,7 @@ const includeFilenameHashes = !!parseInt(settings.webpack.includeFilenameHashes)
  * @returns Object[]
  */
 const BabelLoaderRules = (browsers) => {
+
     return [
         {
             test: /\.js$/,
@@ -60,23 +63,7 @@ const BabelLoaderRules = (browsers) => {
             },
         },
     ];
-};
 
-
-/**
- * Configuration for CleanWebpack plugin
- * @see https://github.com/johnagan/clean-webpack-plugin
- *
- * @param root
- *
- * @returns Object
- */
-const CleanWebpackPluginOptions = (root) => {
-    return {
-        root: root,
-        verbose: true,
-        dry: false
-    };
 };
 
 /**
@@ -90,6 +77,7 @@ const CleanWebpackPluginOptions = (root) => {
  * @returns Object
  */
 const CriticalCssPluginOptions = (name, url, amp) => {
+
     return {
         src: settings.criticalCss.baseUrl + url,
         dest: project.getDistPath(settings.criticalCss.destPath, (name + settings.criticalCss.suffix)),
@@ -98,6 +86,7 @@ const CriticalCssPluginOptions = (name, url, amp) => {
         minify: true,
         dimensions: (amp ? settings.criticalCss.ampDimensions : settings.criticalCss.dimensions),
     };
+
 };
 
 /**
@@ -107,6 +96,7 @@ const CriticalCssPluginOptions = (name, url, amp) => {
  * @returns Array
  */
 const CriticalCssPluginInstances = () => {
+
     let instances = [];
     // Normal views
     for ([name, url] of Object.entries(settings.criticalCss.entries)) {
@@ -119,6 +109,7 @@ const CriticalCssPluginInstances = () => {
         instances.push(instance);
     }
     return instances;
+
 };
 
 /**
@@ -131,30 +122,30 @@ const CriticalCssPluginInstances = () => {
 const DevServerConfig = () => {
 
     return {
-        public: settings.devServerConfig.public,
-        contentBase: project.getProjectPath(settings.paths.source.templates),
-        host: settings.devServerConfig.host,
-        port: settings.devServerConfig.port,
-        https: !!parseInt(settings.devServerConfig.https),
-        disableHostCheck: true,
-        proxy: settings.devServerConfig.proxy ? {
-            '*': {
-                target: settings.devServerConfig.proxy,
-                changeOrigin: true,
-            }
-        } : null,
-        hot: true,
-        overlay: true,
-        watchContentBase: true,
-        watchOptions: {
-            poll: !!parseInt(settings.devServerConfig.poll),
-            ignored: settings.devServerConfig.ignored,
-        },
+
+        host: settings.devServerConfig.host || 'localhost',
+        https: settings.devServerConfig.https || false,
+        port: settings.devServerConfig.port || 8080,
+        public: settings.devServerConfig.public ||
+            ((settings.devServerConfig.host || 'localhost') + ':' + (settings.devServerConfig.port || 8080)),
+
+        compress: true,
+        contentBase: settings.devServerConfig.contentBase,
+        disableHostCheck: false,
         headers: {
             'Access-Control-Allow-Origin': '*',
-            'X-WebpackDevServer': settings.devServerConfig.public
+            'X-ServedByWebpackDevServer': '',
         },
+        overlay: true,
+        proxy: settings.devServerConfig.proxy || null,
+        watchContentBase: true,
+        watchOptions: {
+            poll: settings.devServerConfig.poll || null,
+            ignored: [/(node_modules|bower_components)/, ...(settings.devServerConfig.ignored || [])],
+        },
+
     };
+
 };
 
 /**
@@ -163,6 +154,7 @@ const DevServerConfig = () => {
  * @returns Object[]
  */
 const FontLoaderRules = () => {
+
     return [
         {
             test: /\.(ttf|eot|woff2?)$/i,
@@ -176,6 +168,32 @@ const FontLoaderRules = () => {
             ]
         }
     ];
+
+};
+
+/**
+ * Generates an instance of SaveRemoteFilePlugin for each entry in `settings.saveRemoteFileConfig`.
+ * (These instances will be merged into `module.exports.plugins` to include remote files in production builds.)
+ *
+ * @returns Array
+ */
+const SaveRemoteFilePluginInstances = () => {
+
+    let instances = [];
+
+    settings.saveRemoteFileConfig.forEach(function (entry) {
+        let instance = new SaveRemoteFilePlugin(
+            {
+                url: entry.url,
+                filepath: entry.filepath,
+                hash: includeFilenameHashes,
+            }
+        );
+        instances.push(instance);
+    });
+
+    return instances;
+
 };
 
 /**
@@ -184,24 +202,29 @@ const FontLoaderRules = () => {
  * @returns Object[]
  */
 const StyleCompilationRules = () => {
+
+    const MiniCssExtractPluginLoader = {
+        loader: MiniCssExtractPlugin.loader,
+        options: {
+            hmr: project.inDev(),
+            reloadAll: null,
+        },
+    };
+
+    const CssLoader = {
+        loader: 'css-loader',
+        options: {
+            importLoaders: 1,
+            sourceMap: true
+        }
+    };
+
     return [
         {
-            test: /\.(pcss|css)$/,
+            test: /\.(pcss)$/,
             use: [
-                {
-                    loader: MiniCssExtractPlugin.loader,
-                    options: {
-                        hmr: project.inDev(),
-                        // reloadAll: true,
-                    },
-                },
-                {
-                    loader: 'css-loader',
-                    options: {
-                        importLoaders: 1,
-                        sourceMap: true
-                    }
-                },
+                MiniCssExtractPluginLoader,
+                CssLoader,
                 {
                     loader: 'postcss-loader',
                     options: {
@@ -212,8 +235,16 @@ const StyleCompilationRules = () => {
                     }
                 }
             ]
+        },
+        {
+            test: /\.(css)$/,
+            use: [
+                MiniCssExtractPluginLoader,
+                CssLoader,
+            ]
         }
     ];
+
 };
 
 /**
@@ -225,6 +256,7 @@ const StyleCompilationRules = () => {
  * @returns Object
  */
 const SVGSpritemapPluginOptions = (name) => {
+
     return {
         output: {
             chunk: {
@@ -234,11 +266,12 @@ const SVGSpritemapPluginOptions = (name) => {
         },
         sprite: {
             prefix: false,
-                generate: {
+            generate: {
                 use: true,
             }
         }
     }
+
 };
 
 /**
@@ -248,12 +281,15 @@ const SVGSpritemapPluginOptions = (name) => {
  * @returns Array
  */
 const SVGSpritemapPluginInstances = () => {
+
     let instances = [];
     for ([name, path] of Object.entries(settings.svgSprites)) {
         let instance = new SVGSpritemapPlugin(settings.paths.source.svg + path, SVGSpritemapPluginOptions(name));
         instances.push(instance);
     }
+
     return instances;
+
 };
 
 /**
@@ -262,12 +298,14 @@ const SVGSpritemapPluginInstances = () => {
  * @returns Object[]
  */
 const VueLoaderRules = () => {
+
     return [
         {
             test: /\.vue$/,
             loader: 'vue-loader'
         }
     ];
+
 };
 
 /**
@@ -279,19 +317,16 @@ const VueLoaderRules = () => {
  * @returns Object
  */
 const WebpackManifestPluginOptions = (fileName) => {
+
     return {
         fileName: fileName,
     };
+
 };
 
 
 
 module.exports = (env, argv) => {
-
-    console.table({
-        'process.env.NODE_ENV': process.env.NODE_ENV,
-        'devServerConfig.public': settings.devServerConfig.public,
-    });
 
     const commonOptions = {
         resolve: {
@@ -304,66 +339,78 @@ module.exports = (env, argv) => {
         devtool: project.inProduction() ? 'source-map' : 'inline-source-map',
     };
 
-    return [
-        {
-            ...commonOptions,
-            name: 'default',
-            entry: settings.entries.default,
-            output: {
-                path: project.getDistPath(''),
-                publicPath: settings.paths.dist.publicPath,
-                filename: '[name]' + (includeFilenameHashes ? '.[chunkhash]' : '') + '.js'
-            },
-            module: {
-                rules: [
-                    ...BabelLoaderRules(pkg.browserslist.modernBrowsers),
-                    ...FontLoaderRules(),
-                    ...StyleCompilationRules(),
-                    ...VueLoaderRules(),
-                ]
-            },
-            plugins: [
-                ...(project.inProduction() ? CriticalCssPluginInstances() : []),
-                new SaveRemoteFilePlugin(
-                    settings.saveRemoteFileConfig
-                ),
-                ...SVGSpritemapPluginInstances(),
-                new MiniCssExtractPlugin({
-                    filename: '[name]' + (includeFilenameHashes ? '.[contenthash]' : '') +  '.css',
-                }),
-                new WebpackManifestPlugin(
-                    WebpackManifestPluginOptions('manifest-default.json')
-                ),
-
-            ],
+    const defaultOptions = {
+        ...commonOptions,
+        name: 'default',
+        entry: settings.entries.default,
+        output: {
+            path: project.getDistPath(''),
+            publicPath: settings.paths.dist.publicPath,
+            filename: '[name]' + (includeFilenameHashes ? '.[chunkhash]' : '') + '.js'
         },
-        {
-            ...commonOptions,
-            name: 'legacy',
-            entry: settings.entries.legacy,
-            output: {
-                path: project.getDistPath(''),
-                publicPath: settings.paths.dist.publicPath,
-                filename: '[name].legacy' + (includeFilenameHashes ? '.[chunkhash]' : '') + '.js'
-            },
-            module: {
-                rules: [
-                    ...BabelLoaderRules(pkg.browserslist.legacyBrowsers),
-                    ...FontLoaderRules(),
-                ]
-            },
-            plugins: [
-                new CleanWebpackPlugin(
-                    /*
-                     * N.B. clean-webpack-plugin is only invoked in the final webpack configuration. Cleaning up in
-                     * earlier configs could leave things broken from mysteriously missing files/directories.
-                     */
-                    CleanWebpackPluginOptions(project.getDistPath())
-                ),
-                new WebpackManifestPlugin(
-                    WebpackManifestPluginOptions('manifest-legacy.json')
-                )
-            ],
-        }
+        module: {
+            rules: [
+                ...BabelLoaderRules(pkg.browserslist.legacyBrowsers),
+                ...FontLoaderRules(),
+                ...StyleCompilationRules(),
+                ...VueLoaderRules(),
+            ]
+        },
+        plugins: [
+            ...(project.inProduction() ? [new CopyPlugin(settings.copyPluginConfig)] : []),
+            ...(project.inProduction() ? SaveRemoteFilePluginInstances() : []),
+            ...SVGSpritemapPluginInstances(),
+            ...(project.inProduction() ? CriticalCssPluginInstances() : []),
+            new MiniCssExtractPlugin({
+                filename: '[name]' + (includeFilenameHashes ? '.[contenthash]' : '') +  '.css',
+            }),
+            new WebpackManifestPlugin(
+                WebpackManifestPluginOptions('manifest-default.json')
+            ),
+        ],
+    };
+
+    const modernOptions = {
+        ...commonOptions,
+        name: 'modern',
+        entry: settings.entries.modern,
+        output: {
+            path: project.getDistPath(''),
+            publicPath: settings.paths.dist.publicPath,
+            filename: '[name].modern' + (includeFilenameHashes ? '.[chunkhash]' : '') + '.js'
+        },
+        module: {
+            rules: [
+                ...BabelLoaderRules(pkg.browserslist.modernBrowsers),
+                ...FontLoaderRules(),
+            ]
+        },
+        plugins: [
+            new WebpackManifestPlugin(
+                WebpackManifestPluginOptions('manifest-modern.json')
+            )
+        ],
+    };
+
+    // Some useful info
+    console.table({
+        'webpack.mode': project.getMode(),
+        'devServerConfig.public': settings.devServerConfig.public,
+    });
+
+    // Clean out the output directory
+    if (project.inProduction()) {
+        let cleanedFiles = Del.sync([project.getDistPath('**/*')]);
+        console.log("Cleaning the output directory...", cleanedFiles);
+    }
+
+    // Webpack speed profiler
+    const smp = new SpeedMeasurePlugin();
+
+    // ...and away... we... go.
+    return [
+        smp.wrap(defaultOptions),
+        smp.wrap(modernOptions),
     ];
+
 };
