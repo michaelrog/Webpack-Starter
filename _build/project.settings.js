@@ -14,7 +14,7 @@ settings.paths = {
 		css: "./source/css/",
 		js: "./source/js/",
 		svg: "./source/svg/",
-		templates: "./source/craft-templates/",
+		templates: "./source/craft_templates/",
 	},
 	dist: {
 		base: "./web/dist/",
@@ -78,6 +78,16 @@ settings.criticalCss = {
 	}
 };
 
+settings.tailwindConfig = {
+
+};
+
+settings.stylelintConfig = {
+	ignore: [
+		'tailwindcss/**'
+	],
+};
+
 
 settings.purgeCssConfig = {
 	paths: [
@@ -104,61 +114,33 @@ settings.saveRemoteFileConfig = [
 	}
 ];
 
+settings.copyPluginConfig = [
+	// {
+	// 	from: settings.paths.source.base + 'path/from/source.css',
+	// 	to: 'path/in/dist.css',
+	// },
+];
+
 settings.devServerConfig = {
-    public: process.env.DEVSERVER_PUBLIC || "http://localhost:8080",
-    host: process.env.DEVSERVER_HOST || "localhost",
-    port: process.env.DEVSERVER_PORT || 8080,
-    https: asBoolean(process.env.DEVSERVER_HTTPS) || false,
-    poll: asBoolean(process.env.DEVSERVER_POLL) || false,
-    ignored: [
-        /(node_modules|bower_components)/
-    ],
-	proxy: process.env.DEVSERVER_PROXY_HOST || null,
+	public: process.env.DEVSERVER_PUBLIC || null,
+	host: process.env.DEVSERVER_HOST || "localhost",
+	port: process.env.DEVSERVER_PORT || 8080,
+	https: asBoolean(process.env.DEVSERVER_HTTPS) || false,
+	poll: asBoolean(process.env.DEVSERVER_POLL) || false,
+	// ignored: [],
+	proxy: {
+		'*': {
+			target: process.env.DEVSERVER_PROXY_HOST || null,
+			changeOrigin: true,
+			secure: false,
+		}
+	},
+	contentBase: [
+		settings.paths.source.templates
+	],
 };
 
 
 // Webpack project settings exports
 // noinspection WebpackConfigHighlighting
 module.exports = settings;
-
-
-
-
-
-
-const unusedSettings = {
-	webappConfig: {
-		logo: "./source/img/favicon.png",
-		prefix: "img/favicons/"
-	},
-	workboxConfig: {
-		swDest: "../sw.js",
-		precacheManifestFilename: "js/precache-manifest.[manifestHash].js",
-		importScripts: [
-			"/dist/workbox-catch-handler.js"
-		],
-		exclude: [
-			/\.(png|jpe?g|gif|svg|webp)$/i,
-			/\.map$/,
-			/^manifest.*\\.js(?:on)?$/,
-		],
-		globDirectory: "./web/",
-		globPatterns: [
-			"offline.html",
-			"offline.svg"
-		],
-		offlineGoogleAnalytics: true,
-		runtimeCaching: [
-			{
-				urlPattern: /\.(?:png|jpg|jpeg|svg|webp)$/,
-				handler: "cacheFirst",
-				options: {
-					cacheName: "images",
-					expiration: {
-						maxEntries: 20
-					}
-				}
-			}
-		]
-	},
-};

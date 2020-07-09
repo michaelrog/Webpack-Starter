@@ -137,7 +137,7 @@ const DevServerConfig = () => {
             'X-ServedByWebpackDevServer': '',
         },
         overlay: true,
-        // proxy: settings.devServerConfig.proxy || null,
+        proxy: settings.devServerConfig.proxy || null,
         watchContentBase: true,
         watchOptions: {
             poll: settings.devServerConfig.poll || null,
@@ -364,9 +364,9 @@ module.exports = (env, argv) => {
             new MiniCssExtractPlugin({
                 filename: '[name]' + (includeFilenameHashes ? '.[contenthash]' : '') +  '.css',
             }),
-            new WebpackManifestPlugin(
-                WebpackManifestPluginOptions('manifest-default.json')
-            ),
+            // new WebpackManifestPlugin(
+            //     WebpackManifestPluginOptions('manifest-default.json')
+            // ),
         ],
     };
 
@@ -386,9 +386,9 @@ module.exports = (env, argv) => {
             ]
         },
         plugins: [
-            new WebpackManifestPlugin(
-                WebpackManifestPluginOptions('manifest-modern.json')
-            )
+            // new WebpackManifestPlugin(
+            //     WebpackManifestPluginOptions('manifest-modern.json')
+            // )
         ],
     };
 
