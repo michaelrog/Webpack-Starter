@@ -33,13 +33,13 @@ settings.svgSprites = {
 
 settings.entries = {
 	default: {
-		'site': [
-			settings.paths.source.js + 'site.js',
-			settings.paths.source.css + 'site.pcss',
+		'main': [
+			settings.paths.source.js + 'main.js',
+			settings.paths.source.css + 'main.pcss',
 		],
 	},
 	modern: {
-		'site': settings.paths.source.js + 'site.js',
+		'main': settings.paths.source.js + 'main.js',
 	},
 };
 
@@ -108,8 +108,8 @@ settings.devServerConfig = {
     public: process.env.DEVSERVER_PUBLIC || "http://localhost:8080",
     host: process.env.DEVSERVER_HOST || "localhost",
     port: process.env.DEVSERVER_PORT || 8080,
-    https: process.env.DEVSERVER_HTTPS || false,
-    poll: process.env.DEVSERVER_POLL || false,
+    https: asBoolean(process.env.DEVSERVER_HTTPS) || false,
+    poll: asBoolean(process.env.DEVSERVER_POLL) || false,
     ignored: [
         /(node_modules|bower_components)/
     ],

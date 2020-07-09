@@ -137,7 +137,7 @@ const DevServerConfig = () => {
             'X-ServedByWebpackDevServer': '',
         },
         overlay: true,
-        proxy: settings.devServerConfig.proxy || null,
+        // proxy: settings.devServerConfig.proxy || null,
         watchContentBase: true,
         watchOptions: {
             poll: settings.devServerConfig.poll || null,
